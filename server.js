@@ -15,11 +15,10 @@ const params = {
 }
 
 app.get('/', function(req, res) {
-	var tweetsTest = [];
-	tweetsTest.push('testing'); // will be sent to client
+    var tweetsUrls = [];
+    var embeddedTweets = [];
     // Initiate your search using the above paramaters
     T.get('search/tweets', params, (err, data, response) => {
-        tweetsTest.push('testing2'); // will be sent to client
 		// If there is no error, proceed
         if(err){
             return console.log(err);
@@ -28,22 +27,34 @@ app.get('/', function(req, res) {
         // Loop through the returned tweets
         const tweetsId = data.statuses
             .map(tweet => ({ id: tweet.id_str }));
-
-        tweetsId.map(tweetId => {
-            T.post('favorites/create', tweetId, (err, response) => {
-			tweetsTest.push('testing3'); // will only be sent to client if at least a link has been favorited	
-            if(err){
-                return console.log(err[0].message);
-            }
-
-            const username = response.user.screen_name;
-            const favoritedTweetId = response.id_str;
-			tweetsTest.push(`Favorited: https://twitter.com/${username}/status/${favoritedTweetId}`);
+        
             
+        const tweetsScreenName = data.statuses
+            .map(tweet => ({ screenName: tweet.user.screen_name }));
+            
+        for(var i=0; i<tweetsId.length;++i) {
+            var id = tweetsId[i].id;
+            var username = tweetsScreenName[i].screenName;
+            var buildUrl = 'https://twitter.com/'+username+'/status/'+id;
+            var inputParams = {
+                url: 'test'
+            };
+            inputParams.url = buildUrl;
+            var put;
+            tweetsUrls.push(buildUrl);
+            put = T.get('statuses/oembed', inputParams , (err, data, response) => {
+                if(err){
+                    return console.log(err);
+                }
+                return data.html;
+                
             });
-        });
+            embeddedTweets.push(put);
+        }
+        
+        console.log(embeddedTweets);
 		res.render('index.ejs',{
-			tweetsTest: tweetsTest
+			embeddedTweets: embeddedTweets
 		});
         })
 });

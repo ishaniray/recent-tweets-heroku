@@ -15,10 +15,12 @@ const params = {
 }
 
 app.get('/', function(req, res) {
-    
+	var tweetsTest = [];
+	tweetsTest.push('testing'); // will be sent to client
     // Initiate your search using the above paramaters
     T.get('search/tweets', params, (err, data, response) => {
-        // If there is no error, proceed
+        tweetsTest.push('testing2'); // will be sent to client
+		// If there is no error, proceed
         if(err){
             return console.log(err);
         }
@@ -29,19 +31,21 @@ app.get('/', function(req, res) {
 
         tweetsId.map(tweetId => {
             T.post('favorites/create', tweetId, (err, response) => {
+			tweetsTest.push('testing3'); // will only be sent to client if at least a link has been favorited	
             if(err){
                 return console.log(err[0].message);
             }
 
             const username = response.user.screen_name;
             const favoritedTweetId = response.id_str;
-            console.log(`Favorited: https://twitter.com/${username}/status/${favoritedTweetId}`);
+			tweetsTest.push(`Favorited: https://twitter.com/${username}/status/${favoritedTweetId}`);
             
             });
         });
+		res.render('index.ejs',{
+			tweetsTest: tweetsTest
+		});
         })
-        res.json({name:"https://twitter.com/${username}/status/${favoritedTweetId}"})
-        //res.render('index.ejs');
 });
 
 const server = http.listen(8080, function() {

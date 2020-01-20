@@ -1,10 +1,17 @@
+require('dotenv').config();
+
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 
 const Twitter = require('twitter');
-const config = require('./config.js');
-const T = new Twitter(config);
+const apiKeys = {
+    consumer_key: process.env.CONSUMER_KEY,
+    consumer_secret: process.env.CONSUMER_SECRET,
+    access_token_key: process.env.ACCESS_TOKEN_KEY,
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET
+}
+const T = new Twitter(apiKeys);
 
 const searchParams = {
     q: '#Cerner',
@@ -14,7 +21,7 @@ const searchParams = {
 };
 
 app.get('/', function(req, res) {
-    
+
     T.get('search/tweets', searchParams, (err, data, response) => {
 		// In case of an error, return
         if(err) {

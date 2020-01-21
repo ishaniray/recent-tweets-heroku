@@ -1,10 +1,44 @@
 <html>
     <head>
         <link rel="stylesheet" href="../css/twitter.css">
-    </head>
-    <body>
-        <h1 align='center'>Recent Tweets about #Cerner</h1>
+        <style>
+            .rails-tweet-holder {
+                margin: 2em 0;
+            }
 
-		<div align='center'><%- embeddedTweets %></div> <!-- Use "-" instead of "=" for unescaped raw (HTML) output -->
+            .rails-tweet {
+                font-family: -apple-system, BlinkMacSystemFont, 'Open Sans', sans-serif;
+                font-size: 3em;
+                font-weight: 800;
+                height: 4em;
+                width: 64em;
+                padding: 0.5em 1em;
+                border-radius: 0.25em;
+                display: table-cell;
+                vertical-align: middle;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            }
+
+            .rails-bg {
+                background: -webkit-linear-gradient(110deg, #fecfef 40%,#ff9a9e  60%);
+                background: -o-linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
+                background: -moz-linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
+                background: linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
+            }
+        </style>
+    </head>
+    <body>  
+        <div class="rails-tweet-holder">
+            <div class="rails-tweet rails-bg">
+                <h1 align='center'>Recent Tweets about #Cerner</h1>
+
+                <div align='center'>
+                    <% embeddedTweets.forEach(function(tweet) { %>
+                        <div><%- tweet %></div> <!-- Use "-" instead of "=" for unescaped raw (HTML) output -->
+                    <% }); %>
+                </div> 
+            </div>
+        </div>
+
     </body>   
 </html>

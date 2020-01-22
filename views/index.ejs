@@ -25,18 +25,30 @@
                 background: -moz-linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
                 background: linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
             }
+
+            .rails-text {
+                opacity: 0.5;
+                color: maroon;
+                font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            }
+
+            #copyright-footer {
+                font-size: 15px;
+            }
         </style>
     </head>
     <body>  
         <div class="rails-tweet-holder">
             <div class="rails-tweet rails-bg">
-                <h1 align='center'>Recent Tweets about #Cerner</h1>
+                <h4 class="rails-text" align='center'>Recent Tweets about #Cerner</h4>
 
                 <div align='center'>
                     <% embeddedTweets.forEach(function(tweet) { %>
                         <div><%- tweet %></div> <!-- Use "-" instead of "=" for unescaped raw (HTML) output -->
                     <% }); %>
                 </div> 
+
+                <div class="rails-text" id="copyright-footer">&copy; <%- new Date().getFullYear() %> RAILS</div>
             </div>
         </div>
 

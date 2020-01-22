@@ -60,8 +60,9 @@ app.get('/:hashtag?', function(req, res) {  // '?' indicates the hashtag param i
                 embeddedTweets.push(oembedData.html);
 
                 if(count == tweets.length) {  // render index.ejs only when all callbacks but the current one have finished executing 
+                    const uniqueEmbeddedTweets = new Set(embeddedTweets);
                     res.render('index.ejs', {
-                        embeddedTweets: embeddedTweets,
+                        embeddedTweets: uniqueEmbeddedTweets,
                         searchParams: searchParams
                     });
                 }

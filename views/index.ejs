@@ -113,7 +113,7 @@
             <div class="rails-tweet rails-bg">
                 <h4 class="rails-text" align='center'>Recent Tweets about <%= searchParams.q %></h4>
 
-                <button class="rails-open-button" onclick="openForm()">Search #</button>
+                <button class="rails-open-button" id="rails-search-button" onclick="openForm()">Search #</button>
 
                 <div align='center'>
                     <% embeddedTweets.forEach(function(tweet) { %>
@@ -148,10 +148,12 @@
 
             function openForm() {
                 document.getElementById("railsForm").style.display = "block";
+                document.getElementById("rails-search-button").style.display = "none";
             }
 
             function closeForm() {
                 document.getElementById("railsForm").style.display = "none";
+                document.getElementById("rails-search-button").style.display = "block";
             }
         </script>
     </body>   

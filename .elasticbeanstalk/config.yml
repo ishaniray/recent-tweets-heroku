@@ -1,0 +1,9 @@
+branch-defaults:
+  master:
+    environment: Thisisnotaname-env
+global:
+  application_name: thisisnotaname
+  default_ec2_keyname: e-aamknbm6st
+  default_platform: Node.js running on 64bit Amazon Linux/4.12.0
+  default_region: us-east-2
+  sc: git

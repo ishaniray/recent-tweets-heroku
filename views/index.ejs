@@ -32,15 +32,88 @@
                 font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
             }
 
+            .rails-open-button {
+                background-color: rgba(128,0,0,0.1);
+                color: maroon;
+                padding: 16px 20px;
+                border: none;
+                cursor: pointer;
+                opacity: 0.8;
+                position: fixed;
+                bottom: 23px;
+                right: 28px;
+                width: 280px;
+            }
+
+            .rails-form-popup {
+                display: none;
+                position: fixed;
+                bottom: 0;
+                right: 15px;
+                border: 3px solid #f1f1f1;
+                z-index: 9;
+            }
+
+            .rails-form-container {
+                max-width: 300px;
+                padding: 10px;
+                background-color: rgba(128,0,0,0.2);
+            }
+
+            .rails-form-container input[type=text] {
+                width: 100%;
+                padding: 15px;
+                margin: 5px 0 22px 0;
+                border: none;
+                background: #f1f1f1;
+            }
+
+            .rails-form-container input[type=text]:focus {
+                background-color: #ddd;
+                outline: none;
+            }
+
+
+            .rails-form-container .btn {
+                background-color: white;
+                color: maroon;
+                padding: 16px 20px;
+                border: none;
+                cursor: pointer;
+                width: 100%;
+                margin-bottom:10px;
+                opacity: 0.8;
+            }
+
+            .rails-form-container .cancel {
+                background-color: white;
+                color: maroon;
+            }
+
+            .rails-form-container .btn:hover, .open-button:hover {
+                opacity: 1;
+            }
+
             #copyright-footer {
                 font-size: 15px;
             }
         </style>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     </head>
     <body>  
+        <div class="rails-form-popup" id="railsForm">
+            <form id="rails-form-id" class="rails-form-container" action="\" method="POST">
+                <input type="text" id="rails-hashtag-id" placeholder="hashtag" required/>
+                <button id="rails-button-id" class="btn">Search</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </form>
+        </div>
+        
         <div class="rails-tweet-holder">
             <div class="rails-tweet rails-bg">
-                <h4 class="rails-text" align='center'>Recent Tweets about #Cerner</h4>
+                <h4 class="rails-text" align='center'>Recent Tweets about <%= searchParams.q %></h4>
+
+                <button class="rails-open-button" onclick="openForm()">Search #</button>
 
                 <div align='center'>
                     <% embeddedTweets.forEach(function(tweet) { %>
@@ -51,6 +124,35 @@
                 <div class="rails-text" id="copyright-footer">&copy; <%- new Date().getFullYear() %> RAILS</div>
             </div>
         </div>
+        <script>
+            $('#rails-button-id').click(function(e){
+                e.preventDefault();
+                var hashtag = $('#rails-hashtag-id').val();
+                if(hashtag.trim().length==0) {
+                    alert('Your search query is empty. We will search #Cerner for you...');
+                    hashtag = "Cerner";
+                }
+                var getUrl = window.location;
+                var lastPosOfSlash = getUrl.toString().lastIndexOf("/");
+                var urlLength = getUrl.toString().length;
+                var redirectUrl;
+                
+                if(lastPosOfSlash == urlLength-1) {
+                    redirectUrl = getUrl.toString() + hashtag;
+                } else {
+                    redirectUrl = getUrl.toString().replace(getUrl.toString().substring(lastPosOfSlash + 1, urlLength), hashtag);
+                }
+                window.location.href = redirectUrl;
+                return false;
+            });
 
+            function openForm() {
+                document.getElementById("railsForm").style.display = "block";
+            }
+
+            function closeForm() {
+                document.getElementById("railsForm").style.display = "none";
+            }
+        </script>
     </body>   
 </html>

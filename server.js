@@ -15,17 +15,25 @@ const T = new Twitter(apiKeys);
 
 app.get('/favicon.ico', (req, res) => res.sendStatus(204)); // No content
 
-app.get('/:hashtag?', function(req, res) {  // '?' indicates the hashtag param is optional
+app.get('/:parameters?', function(req, res) {  // '?' indicates the hashtag param is optional
 
     const searchParams = {
         count: 10,
-        result_type: 'recent',  // this can be 'popular' or 'mixed'
         lang: 'en'
     };
 
-    searchParams.q = `#${req.params.hashtag}`;
-    if(req.params.hashtag == undefined) {
+    var searchedParams = `${req.params.parameters}`;
+
+    if(req.params.parameters == undefined) {
         searchParams.q = '#Cerner';
+        searchParams.result_type = 'recent';
+    } else {
+        var splitSearchedParams = searchedParams.split("-");
+        var hashtag = splitSearchedParams[0];
+        var type = splitSearchedParams[1];
+
+        searchParams.result_type = type;
+        searchParams.q = `#${hashtag}`;
     }
 
     T.get('search/tweets', searchParams, (err, data, response) => {

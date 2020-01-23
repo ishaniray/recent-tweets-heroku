@@ -1,5 +1,7 @@
 <html>
     <head>
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>RAILS</title>
         <link rel="stylesheet" href="../css/twitter.css">
         <style>
             .rails-tweet-holder {
@@ -26,9 +28,22 @@
                 background: linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
             }
 
+            .rails-bg-dark {
+                background: -webkit-linear-gradient(110deg, #5a314d 40%,#966466  60%);
+                background: -o-linear-gradient(110deg, #5a314d 40%, #966466 60%);
+                background: -moz-linear-gradient(110deg, #5a314d 40%, #966466 60%);
+                background: linear-gradient(110deg, #5a314d 40%, #966466 60%);
+            }
+
             .rails-text {
                 opacity: 0.5;
                 color: maroon;
+                font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            }
+
+            .rails-text-dark {
+                opacity: 0.5;
+                color: rgb(48, 2, 2);
                 font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
             }
 
@@ -42,6 +57,45 @@
                 position: fixed;
                 bottom: 23px;
                 right: 28px;
+                width: 280px;
+            }
+
+            .rails-open-button-dark {
+                background-color: rgba(128,0,0,0.1);
+                color: black;
+                padding: 16px 20px;
+                border: none;
+                cursor: pointer;
+                opacity: 0.8;
+                position: fixed;
+                bottom: 23px;
+                right: 28px;
+                width: 280px;
+            }
+
+            .rails-dark-button {
+                background-color: rgba(128,0,0,0.1);
+                color: maroon;
+                padding: 16px 20px;
+                border: none;
+                cursor: pointer;
+                opacity: 0.8;
+                position: fixed;
+                bottom: 23px;
+                left: 28px;
+                width: 280px;
+            }
+
+            .rails-dark-button-dark {
+                background-color: rgba(128,0,0,0.1);
+                color: black;
+                padding: 16px 20px;
+                border: none;
+                cursor: pointer;
+                opacity: 0.8;
+                position: fixed;
+                bottom: 23px;
+                left: 28px;
                 width: 280px;
             }
 
@@ -60,6 +114,12 @@
                 background-color: rgba(128,0,0,0.2);
             }
 
+            .rails-form-container-dark {
+                max-width: 300px;
+                padding: 10px;
+                background-color: #793d66;
+            }
+
             .rails-form-container input[type=text] {
                 width: 100%;
                 padding: 15px;
@@ -68,8 +128,47 @@
                 background: #f1f1f1;
             }
 
+            .rails-form-container .select {
+                width: 100%;
+                padding: 15px;
+                margin: 5px 0 22px 0;
+                border: none;
+                background: #f1f1f1;
+            }
+
+            .rails-form-container-dark input[type=text] {
+                width: 100%;
+                padding: 15px;
+                margin: 5px 0 22px 0;
+                border: none;
+                background: #9b9a9a;
+            }
+
+            .rails-form-container-dark .select {
+                width: 100%;
+                padding: 15px;
+                margin: 5px 0 22px 0;
+                border: none;
+                background: #9b9a9a;
+            }
+
             .rails-form-container input[type=text]:focus {
                 background-color: #ddd;
+                outline: none;
+            }
+
+            .rails-form-container .select:focus {
+                background-color: #ddd;
+                outline: none;
+            }
+
+            .rails-form-container-dark input[type=text]:focus {
+                background-color: rgb(151, 148, 148);
+                outline: none;
+            }
+
+            .rails-form-container-dark .select:focus {
+                background-color: rgb(151, 148, 148);
                 outline: none;
             }
 
@@ -85,12 +184,32 @@
                 opacity: 0.8;
             }
 
+            .rails-form-container-dark .btn {
+                background-color: rgb(228, 220, 220);
+                color: black;
+                padding: 16px 20px;
+                border: none;
+                cursor: pointer;
+                width: 100%;
+                margin-bottom:10px;
+                opacity: 0.8;
+            }
+
             .rails-form-container .cancel {
                 background-color: white;
                 color: maroon;
             }
 
+            .rails-form-container-dark .cancel {
+                background-color: rgb(209, 202, 202);
+                color: black;
+            }
+
             .rails-form-container .btn:hover, .open-button:hover {
+                opacity: 1;
+            }
+
+            .rails-form-container-dark .btn:hover, .open-button:hover {
                 opacity: 1;
             }
 
@@ -104,16 +223,22 @@
         <div class="rails-form-popup" id="railsForm">
             <form id="rails-form-id" class="rails-form-container" action="\" method="POST">
                 <input type="text" id="rails-hashtag-id" placeholder="hashtag" required/>
+                <select name="result-type" id="result-type" class="select">
+                    <option value="recent" selected>Recent</option>
+                    <option value="popular">Popular</option>
+                </select>
                 <button id="rails-button-id" class="btn">Search</button>
                 <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
             </form>
         </div>
         
-        <div class="rails-tweet-holder">
-            <div class="rails-tweet rails-bg">
-                <h4 class="rails-text" align='center'>Recent Tweets about <%= searchParams.q %></h4>
+        <div class="rails-tweet-holder" id="tweet-holder">
+            <div class="rails-tweet rails-bg" id="tweet-bg">
+                <h4 class="rails-text" align='center'>Recent Tweets about <%= searchParams.q %>-<%= searchParams.result_type %></h4>
 
                 <button class="rails-open-button" id="rails-search-button" onclick="openForm()">Search #</button>
+
+                <button class="rails-dark-button" id="rails-enable-dark-button">Enable Dark Mode</button>
 
                 <div align='center'>
                     <% embeddedTweets.forEach(function(tweet) { %>
@@ -132,15 +257,16 @@
                     alert('Your search query is empty. We will search #Cerner for you...');
                     hashtag = "Cerner";
                 }
+                var resultType = $('#result-type').val();
                 var getUrl = window.location;
                 var lastPosOfSlash = getUrl.toString().lastIndexOf("/");
                 var urlLength = getUrl.toString().length;
                 var redirectUrl;
                 
                 if(lastPosOfSlash == urlLength-1) {
-                    redirectUrl = getUrl.toString() + hashtag;
+                    redirectUrl = getUrl.toString() + hashtag + "-" + resultType;
                 } else {
-                    redirectUrl = getUrl.toString().replace(getUrl.toString().substring(lastPosOfSlash + 1, urlLength), hashtag);
+                    redirectUrl = getUrl.toString().replace(getUrl.toString().substring(lastPosOfSlash + 1, urlLength), hashtag + "-" + resultType);
                 }
                 window.location.href = redirectUrl;
                 return false;
@@ -155,6 +281,38 @@
                 document.getElementById("railsForm").style.display = "none";
                 document.getElementById("rails-search-button").style.display = "block";
             }
+
+            $("#rails-enable-dark-button").click(function(e){
+                if( $( "#rails-form-id" ).hasClass( "rails-form-container" )) {
+                    $( "#rails-form-id" ).removeClass( "rails-form-container" );
+                    $( "#rails-form-id" ).addClass( "rails-form-container-dark" );
+                    $( "h4" ).removeClass( "rails-text" );
+                    $( "h4" ).addClass( "rails-text-dark" );
+                    $( "#copyright-footer" ).removeClass( "rails-text" );
+                    $( "#copyright-footer" ).addClass( "rails-text-dark" );
+                    $( "#tweet-bg" ).removeClass( "rails-bg" );
+                    $( "#tweet-bg" ).addClass( "rails-bg-dark" );
+                    $( "#rails-search-button" ).removeClass( "rails-open-button" );
+                    $( "#rails-search-button" ).addClass( "rails-open-button-dark" );
+                    $( "#rails-enable-dark-button" ).removeClass( "rails-dark-button" );
+                    $( "#rails-enable-dark-button" ).addClass( "rails-dark-button-dark" );
+                    $("#rails-enable-dark-button").html("Enable Lite Mode");
+                } else {
+                    $( "#rails-form-id" ).removeClass( "rails-form-container-dark" );
+                    $( "#rails-form-id" ).addClass( "rails-form-container" );
+                    $( "h4" ).removeClass( "rails-text-dark" );
+                    $( "h4" ).addClass( "rails-text" );
+                    $( "#copyright-footer" ).removeClass( "rails-text" );
+                    $( "#copyright-footer" ).addClass( "rails-text-dark" );
+                    $( "#tweet-bg" ).removeClass( "rails-bg-dark" );
+                    $( "#tweet-bg" ).addClass( "rails-bg" );
+                    $( "#rails-search-button" ).removeClass( "rails-open-button-dark" );
+                    $( "#rails-search-button" ).addClass( "rails-open-button" );
+                    $( "#rails-enable-dark-button" ).removeClass( "rails-dark-button-dark" );
+                    $( "#rails-enable-dark-button" ).addClass( "rails-dark-button" );
+                    $("#rails-enable-dark-button").html("Enable Dark Mode");
+                }
+            });
         </script>
     </body>   
 </html>

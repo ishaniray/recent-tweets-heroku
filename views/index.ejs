@@ -86,7 +86,7 @@
                 position: fixed;
                 top: 40px;
                 right: 16px;
-                width: 100px;
+                width: 200px;
             }
 
             .rails-dark-button-dark {
@@ -214,6 +214,31 @@
                 opacity: 1;
             }
 
+            .rails-tooltip {
+                position: relative;
+                display: block;
+            }
+
+            .rails-tooltip .rails-tooltiptext {
+                visibility: hidden;
+                width: 120px;
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px 0;
+
+                /* Position the tooltip */
+                position: absolute;
+                right: 20px;
+                z-index: 1;
+            }
+
+            .rails-tooltip:hover .rails-tooltiptext {
+                visibility: visible;
+                color:white;
+            }
+
             #copyright-footer {
                 font-size: 15px;
             }
@@ -239,7 +264,12 @@
 
                 <button class="rails-open-button" id="rails-search-button" onclick="openForm()">Search #</button>
 
-                <button class="rails-dark-button" id="rails-enable-dark-button"><i class="fa fa-lightbulb-o" style="font-size:36px;color:rgb(117, 33, 33)"></i></button>
+                <button class="rails-dark-button" id="rails-enable-dark-button">
+                    <span class="rails-tooltip">
+                        <i class="fa fa-lightbulb-o" style="font-size:36px;color:rgb(117, 33, 33)"></i>
+                        <span class="rails-tooltiptext">Enter Dark Mode</span>
+                    </span>
+                </button>
 
                 <div align='center'>
                     <% embeddedTweets.forEach(function(tweet) { %>

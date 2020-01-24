@@ -57,6 +57,7 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates the hashtag para
             var username = tweets[i].username;
             var fullUrl = `https://twitter.com/${username}/status/${id}`;
             oembedParams.url = fullUrl;
+            oembedParams.theme = 'dark';
 
             T.get('statuses/oembed', oembedParams , (err, oembedData, response) => {
                 count = count + 1;

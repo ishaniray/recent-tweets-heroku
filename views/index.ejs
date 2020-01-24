@@ -234,7 +234,7 @@
         
         <div class="rails-tweet-holder" id="tweet-holder">
             <div class="rails-tweet rails-bg" id="tweet-bg">
-                <h4 class="rails-text" align='center'>Recent Tweets about <%= searchParams.q %>-<%= searchParams.result_type %></h4>
+                <h4 class="rails-text" align='center'><%= searchParams.result_type.charAt(0).toUpperCase() + searchParams.result_type.slice(1) %> Tweets about <%= searchParams.q %></h4>
 
                 <button class="rails-open-button" id="rails-search-button" onclick="openForm()">Search #</button>
 

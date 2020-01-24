@@ -23,17 +23,26 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates the hashtag para
     };
 
     var searchedParams = `${req.params.parameters}`;
+    var theme;
 
     if(req.params.parameters == undefined) {
         searchParams.q = '#Cerner';
         searchParams.result_type = 'recent';
+        theme = 'light';
     } else {
         var splitSearchedParams = searchedParams.split("-");
         var hashtag = splitSearchedParams[0];
         var type = splitSearchedParams[1];
+        var reqTheme = splitSearchedParams[2];
 
         searchParams.result_type = type;
         searchParams.q = `#${hashtag}`;
+
+        if(reqTheme.length == 0) {
+            theme = 'light';
+        }
+
+        theme = reqTheme;
     }
 
     T.get('search/tweets', searchParams, (err, data, response) => {
@@ -57,7 +66,7 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates the hashtag para
             var username = tweets[i].username;
             var fullUrl = `https://twitter.com/${username}/status/${id}`;
             oembedParams.url = fullUrl;
-            oembedParams.theme = 'dark';
+            oembedParams.theme = theme;
 
             T.get('statuses/oembed', oembedParams , (err, oembedData, response) => {
                 count = count + 1;
@@ -72,7 +81,8 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates the hashtag para
                     const uniqueEmbeddedTweets = new Set(embeddedTweets);
                     res.render('index.ejs', {
                         embeddedTweets: uniqueEmbeddedTweets,
-                        searchParams: searchParams
+                        searchParams: searchParams,
+                        theme: theme
                     });
                 }
             });

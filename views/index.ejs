@@ -42,6 +42,12 @@
                 font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
             }
 
+            .rails-text-light {
+                opacity: 0.5;
+                color: maroon;
+                font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            }
+
             .rails-text-dark {
                 opacity: 0.5;
                 color: rgb(48, 2, 2);
@@ -259,6 +265,8 @@
             </form>
         </div>
         
+        <div class="rails-text-<%=theme%>">Test</div>
+
         <div class="rails-tweet-holder" id="tweet-holder">
             <div class="rails-tweet rails-bg" id="tweet-bg">
                 <h4 class="rails-text" align='center'><%= searchParams.result_type.charAt(0).toUpperCase() + searchParams.result_type.slice(1) %> Tweets about <%= searchParams.q %></h4>
@@ -289,20 +297,70 @@
                     alert('Your search query is empty. We will search #Cerner for you...');
                     hashtag = "Cerner";
                 }
+
                 var resultType = $('#result-type').val();
+                var redirectUrl = getRedirectUrl(hashtag, resultType);
+                
+                window.location.href = redirectUrl;
+                return false;
+            });
+
+            function getRedirectUrl(hashtag, resultType) {
                 var getUrl = window.location;
                 var lastPosOfSlash = getUrl.toString().lastIndexOf("/");
                 var urlLength = getUrl.toString().length;
                 var redirectUrl;
                 
-                if(lastPosOfSlash == urlLength-1) {
-                    redirectUrl = getUrl.toString() + hashtag + "-" + resultType;
-                } else {
-                    redirectUrl = getUrl.toString().replace(getUrl.toString().substring(lastPosOfSlash + 1, urlLength), hashtag + "-" + resultType);
+                var parameters = getUrl.toString().substring(lastPosOfSlash + 1, urlLength);
+                var params;
+                var theme = 'none';
+
+                if(parameters.length != 0) {
+                    params = parameters.split("-");
+                    if(params.length == 3) {
+                        if(params[2].length != 0) {
+                            theme = params[2];
+                        } 
+                    } 
+                } 
+
+                if(theme == 'none' || theme != 'light' || theme != 'dark' ) {
+                    theme = 'light';
                 }
-                window.location.href = redirectUrl;
-                return false;
-            });
+
+
+                if(lastPosOfSlash == urlLength-1) {
+                    redirectUrl = getUrl.toString() + hashtag + "-" + resultType + "-" + theme;
+                } else {
+                    redirectUrl = getUrl.toString().replace(getUrl.toString().substring(lastPosOfSlash + 1, urlLength), hashtag + "-" + resultType + "-" + theme);
+                }
+                return redirectUrl;
+            }
+
+            function getTheme(hashtag, resultType) {
+                var getUrl = window.location;
+                var lastPosOfSlash = getUrl.toString().lastIndexOf("/");
+                var urlLength = getUrl.toString().length;
+                var redirectUrl;
+                
+                var parameters = getUrl.toString().substring(lastPosOfSlash + 1, urlLength);
+                var params;
+                var theme = 'none';
+
+                if(parameters.length != 0) {
+                    params = parameters.split("-");
+                    if(params.length == 3) {
+                        if(params[2].length != 0) {
+                            theme = params[2];
+                        } 
+                    } 
+                } 
+
+                if(theme == 'none' || theme != 'light' || theme != 'dark' ) {
+                    theme = 'light';
+                }
+                return theme;
+            }
 
             function openForm() {
                 document.getElementById("railsForm").style.display = "block";

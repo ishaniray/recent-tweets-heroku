@@ -22,7 +22,7 @@
                 box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
             }
 
-            .rails-bg {
+            .rails-bg-light {
                 background: -webkit-linear-gradient(110deg, #fecfef 40%,#ff9a9e  60%);
                 background: -o-linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
                 background: -moz-linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
@@ -34,12 +34,6 @@
                 background: -o-linear-gradient(110deg, #5a314d 40%, #966466 60%);
                 background: -moz-linear-gradient(110deg, #5a314d 40%, #966466 60%);
                 background: linear-gradient(110deg, #5a314d 40%, #966466 60%);
-            }
-
-            .rails-text {
-                opacity: 0.5;
-                color: maroon;
-                font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
             }
 
             .rails-text-light {
@@ -54,7 +48,7 @@
                 font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
             }
 
-            .rails-open-button {
+            .rails-open-button-light {
                 background-color: rgba(128,0,0,0.1);
                 color: maroon;
                 padding: 16px 20px;
@@ -81,7 +75,7 @@
                 width: 280px;
             }
 
-            .rails-dark-button {
+            .rails-dark-button-light {
                 background-color: Transparent;
                 background-repeat:no-repeat;
                 cursor:pointer;
@@ -97,14 +91,18 @@
             }
 
             .rails-dark-button-dark {
+                background-color: Transparent;
+                background-repeat:no-repeat;
+                cursor:pointer;
+                overflow: hidden;        
                 color: black;
                 border: none;
                 cursor: pointer;
-                opacity: 0.8;
+                opacity: 0.6;
                 position: fixed;
-                top: 7px;
-                margin-right: 160px;
-                width: 100px;
+                top: 40px;
+                right: 2px;
+                width: 200px;
             }
 
             .rails-form-popup {
@@ -116,7 +114,7 @@
                 z-index: 9;
             }
 
-            .rails-form-container {
+            .rails-form-container-light {
                 max-width: 300px;
                 padding: 10px;
                 background-color: rgba(128,0,0,0.2);
@@ -128,7 +126,7 @@
                 background-color: #793d66;
             }
 
-            .rails-form-container input[type=text] {
+            .rails-form-container-light input[type=text] {
                 width: 100%;
                 padding: 15px;
                 margin: 5px 0 22px 0;
@@ -136,7 +134,7 @@
                 background: #f1f1f1;
             }
 
-            .rails-form-container .select {
+            .rails-form-container-light .select {
                 width: 100%;
                 padding: 15px;
                 margin: 5px 0 22px 0;
@@ -160,12 +158,12 @@
                 background: #9b9a9a;
             }
 
-            .rails-form-container input[type=text]:focus {
+            .rails-form-container-light input[type=text]:focus {
                 background-color: #ddd;
                 outline: none;
             }
 
-            .rails-form-container .select:focus {
+            .rails-form-container-light .select:focus {
                 background-color: #ddd;
                 outline: none;
             }
@@ -181,7 +179,7 @@
             }
 
 
-            .rails-form-container .btn {
+            .rails-form-container-light .btn {
                 background-color: white;
                 color: maroon;
                 padding: 16px 20px;
@@ -203,7 +201,7 @@
                 opacity: 0.8;
             }
 
-            .rails-form-container .cancel {
+            .rails-form-container-light .cancel {
                 background-color: white;
                 color: maroon;
             }
@@ -213,7 +211,7 @@
                 color: black;
             }
 
-            .rails-form-container .btn:hover, .open-button:hover {
+            .rails-form-container-light .btn:hover, .open-button:hover {
                 opacity: 1;
             }
 
@@ -226,7 +224,7 @@
                 display: block;
             }
 
-            .rails-tooltip .rails-tooltiptext {
+            .rails-tooltip .rails-tooltiptext-light {
                 visibility: hidden;
                 width: 120px;
                 background-color: black;
@@ -241,7 +239,27 @@
                 z-index: 1;
             }
 
-            .rails-tooltip:hover .rails-tooltiptext {
+            .rails-tooltip .rails-tooltiptext-dark {
+                visibility: hidden;
+                width: 120px;
+                background-color: black;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px 0;
+
+                /* Position the tooltip */
+                position: absolute;
+                right: 20px;
+                z-index: 1;
+            }
+
+            .rails-tooltip:hover .rails-tooltiptext-light {
+                visibility: visible;
+                color:white;
+            }
+
+            .rails-tooltip:hover .rails-tooltiptext-dark {
                 visibility: visible;
                 color:white;
             }
@@ -254,7 +272,7 @@
     </head>
     <body>  
         <div class="rails-form-popup" id="railsForm">
-            <form id="rails-form-id" class="rails-form-container" action="\" method="POST">
+            <form id="rails-form-id" class="rails-form-container-<%=theme%>" action="\" method="POST">
                 <input type="text" id="rails-hashtag-id" placeholder="hashtag" required/>
                 <select name="result-type" id="result-type" class="select">
                     <option value="recent" selected>Recent</option>
@@ -264,19 +282,17 @@
                 <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
             </form>
         </div>
-        
-        <div class="rails-text-<%=theme%>">Test</div>
 
         <div class="rails-tweet-holder" id="tweet-holder">
-            <div class="rails-tweet rails-bg" id="tweet-bg">
-                <h4 class="rails-text" align='center'><%= searchParams.result_type.charAt(0).toUpperCase() + searchParams.result_type.slice(1) %> Tweets about <%= searchParams.q %></h4>
+            <div class="rails-tweet rails-bg-<%=theme%>" id="tweet-bg">
+                <h4 class="rails-text-<%=theme%>" align='center'><%= searchParams.result_type.charAt(0).toUpperCase() + searchParams.result_type.slice(1) %> Tweets about <%= searchParams.q %></h4>
 
-                <button class="rails-open-button" id="rails-search-button" onclick="openForm()">Search #</button>
+                <button class="rails-open-button-<%=theme%>" id="rails-search-button" onclick="openForm()">Search #</button>
 
-                <button class="rails-dark-button" id="rails-enable-dark-button">
+                <button class="rails-dark-button-<%=theme%>" id="rails-enable-dark-button">
                     <span class="rails-tooltip">
                         <i class="fa fa-lightbulb-o" style="font-size:36px;color:rgb(117, 33, 33)"></i>
-                        <span class="rails-tooltiptext">Enter Dark Mode</span>
+                        <span class="rails-tooltiptext-<%=theme%>" id="theme-status">Enter Dark Mode</span>
                     </span>
                 </button>
 
@@ -286,7 +302,7 @@
                     <% }); %>
                 </div> 
 
-                <div class="rails-text" id="copyright-footer">&copy; <%- new Date().getFullYear() %> RAILS</div>
+                <div class="rails-text-<%=theme%>" id="copyright-footer">&copy; <%- new Date().getFullYear() %> RAILS</div>
             </div>
         </div>
         <script>
@@ -324,10 +340,17 @@
                     } 
                 } 
 
-                if(theme == 'none' || theme != 'light' || theme != 'dark' ) {
-                    theme = 'light';
+                if(theme == 'none') {
+                    if($("#theme-status").hasClass("rails-tooltiptext-light")) {
+                        theme = "dark";
+                        $("#theme-status").addClass("rails-tooltiptext-dark");
+                        $("#theme-status").html("Enter Lite Mode");
+                    } else {
+                        theme = "light";
+                        $("#theme-status").addClass("rails-tooltiptext-light");
+                        $("#theme-status").html("Enter Dark Mode");
+                    }
                 }
-
 
                 if(lastPosOfSlash == urlLength-1) {
                     redirectUrl = getUrl.toString() + hashtag + "-" + resultType + "-" + theme;
@@ -373,35 +396,54 @@
             }
 
             $("#rails-enable-dark-button").click(function(e){
-                if( $( "#rails-form-id" ).hasClass( "rails-form-container" )) {
-                    $( "#rails-form-id" ).removeClass( "rails-form-container" );
-                    $( "#rails-form-id" ).addClass( "rails-form-container-dark" );
-                    $( "h4" ).removeClass( "rails-text" );
-                    $( "h4" ).addClass( "rails-text-dark" );
-                    $( "#copyright-footer" ).removeClass( "rails-text" );
-                    $( "#copyright-footer" ).addClass( "rails-text-dark" );
-                    $( "#tweet-bg" ).removeClass( "rails-bg" );
-                    $( "#tweet-bg" ).addClass( "rails-bg-dark" );
-                    $( "#rails-search-button" ).removeClass( "rails-open-button" );
-                    $( "#rails-search-button" ).addClass( "rails-open-button-dark" );
-                    $( "#rails-enable-dark-button" ).removeClass( "rails-dark-button" );
-                    $( "#rails-enable-dark-button" ).addClass( "rails-dark-button-dark" );
-                    $("#rails-enable-dark-button").html("Enable Lite Mode");
+                var getUrl = window.location;
+                var lastPosOfSlash = getUrl.toString().lastIndexOf("/");
+                var urlLength = getUrl.toString().length;
+                var redirectUrl;
+                
+                var parameters = getUrl.toString().substring(lastPosOfSlash + 1, urlLength);
+                var params;
+                var hashtag;
+                var resultType;
+                var theme = 'none';
+
+                if(parameters.length != 0) {
+                    params = parameters.split("-");
+                    if(params.length == 3) {
+                        if(params[2].length != 0) {
+                            theme = params[2];
+                        }
+                        if(params[1].length != 0) {
+                            resultType = params[1];
+                        } 
+                        if(params[0].length != 0) {
+                            hashtag = params[0];
+                        } 
+                    } 
                 } else {
-                    $( "#rails-form-id" ).removeClass( "rails-form-container-dark" );
-                    $( "#rails-form-id" ).addClass( "rails-form-container" );
-                    $( "h4" ).removeClass( "rails-text-dark" );
-                    $( "h4" ).addClass( "rails-text" );
-                    $( "#copyright-footer" ).removeClass( "rails-text" );
-                    $( "#copyright-footer" ).addClass( "rails-text-dark" );
-                    $( "#tweet-bg" ).removeClass( "rails-bg-dark" );
-                    $( "#tweet-bg" ).addClass( "rails-bg" );
-                    $( "#rails-search-button" ).removeClass( "rails-open-button-dark" );
-                    $( "#rails-search-button" ).addClass( "rails-open-button" );
-                    $( "#rails-enable-dark-button" ).removeClass( "rails-dark-button-dark" );
-                    $( "#rails-enable-dark-button" ).addClass( "rails-dark-button" );
-                    $("#rails-enable-dark-button").html("Enable Dark Mode");
+                    hashtag = "Cerner";
+                    resultType = "recent";
                 }
+                
+                if($("#theme-status").hasClass("rails-tooltiptext-light")) {
+                    theme = "dark";
+                    $("#theme-status").addClass("rails-tooltiptext-dark");
+                    $("#theme-status").html("Enter Lite Mode");
+                } else {
+                    theme = "light";
+                    $("#theme-status").addClass("rails-tooltiptext-light");
+                    $("#theme-status").html("Enter Dark Mode");
+                }
+                
+                if(lastPosOfSlash == urlLength-1) {
+                    redirectUrl = getUrl.toString() + hashtag + "-" + resultType + "-" + theme;
+                } else {
+                    redirectUrl = getUrl.toString().replace(getUrl.toString().substring(lastPosOfSlash + 1, urlLength), hashtag + "-" + resultType + "-" + theme);
+                }
+
+                var newRedirectUrl = redirectUrl.replace(redirectUrl.substring(redirectUrl.lastIndexOf("-") + 1, redirectUrl.length), theme);
+
+                window.location.href = newRedirectUrl;
             });
         </script>
     </body>   

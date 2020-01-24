@@ -3,6 +3,7 @@
         <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
         <title>RAILS</title>
         <link rel="stylesheet" href="../css/twitter.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
             .rails-tweet-holder {
                 margin: 2em 0;
@@ -74,29 +75,29 @@
             }
 
             .rails-dark-button {
-                background-color: rgba(128,0,0,0.1);
+                background-color: Transparent;
+                background-repeat:no-repeat;
+                cursor:pointer;
+                overflow: hidden;        
                 color: maroon;
-                padding: 16px 20px;
                 border: none;
                 cursor: pointer;
-                opacity: 0.8;
+                opacity: 0.7;
                 position: fixed;
-                bottom: 23px;
-                left: 28px;
-                width: 280px;
+                top: 40px;
+                right: 16px;
+                width: 100px;
             }
 
             .rails-dark-button-dark {
-                background-color: rgba(128,0,0,0.1);
                 color: black;
-                padding: 16px 20px;
                 border: none;
                 cursor: pointer;
                 opacity: 0.8;
                 position: fixed;
-                bottom: 23px;
-                left: 28px;
-                width: 280px;
+                top: 7px;
+                margin-right: 160px;
+                width: 100px;
             }
 
             .rails-form-popup {
@@ -238,7 +239,7 @@
 
                 <button class="rails-open-button" id="rails-search-button" onclick="openForm()">Search #</button>
 
-                <button class="rails-dark-button" id="rails-enable-dark-button">Enable Dark Mode</button>
+                <button class="rails-dark-button" id="rails-enable-dark-button"><i class="fa fa-lightbulb-o" style="font-size:36px;color:rgb(117, 33, 33)"></i></button>
 
                 <div align='center'>
                     <% embeddedTweets.forEach(function(tweet) { %>

@@ -1,0 +1,559 @@
+blockquote.twitter-tweet {
+  display: inline-block;
+  font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 16px;
+  border-color: #eee #ddd #bbb;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  margin: 10px 5px;
+  padding: 0 16px 16px 16px;
+  max-width: 468px;
+}
+
+blockquote.twitter-tweet p {
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 20px;
+}
+
+blockquote.twitter-tweet a {
+  color: inherit;
+  font-weight: normal;
+  text-decoration: none;
+  outline: 0 none;
+}
+
+blockquote.twitter-tweet a:hover,
+blockquote.twitter-tweet a:focus {
+  text-decoration: underline;
+}
+.rails-tweet-holder {
+  margin: 2em 0;
+}
+
+.rails-tweet {
+  font-family: -apple-system, BlinkMacSystemFont, 'Open Sans', sans-serif;
+  font-size: 3em;
+  font-weight: 800;
+  height: 4em;
+  width: 64em;
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
+  display: table-cell;
+  vertical-align: middle;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.rails-bg-light {
+  background: -webkit-linear-gradient(110deg, #fecfef 40%,#ff9a9e  60%);
+  background: -o-linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
+  background: -moz-linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
+  background: linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
+}
+
+.rails-bg-dark {
+  background: -webkit-linear-gradient(110deg, #5a314d 40%,#966466  60%);
+  background: -o-linear-gradient(110deg, #5a314d 40%, #966466 60%);
+  background: -moz-linear-gradient(110deg, #5a314d 40%, #966466 60%);
+  background: linear-gradient(110deg, #5a314d 40%, #966466 60%);
+}
+
+.rails-text-light {
+  opacity: 0.5;
+  color: maroon;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+.rails-text-dark {
+  opacity: 0.5;
+  color: rgb(48, 2, 2);
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+.rails-open-button-light {
+  background-color: rgba(128,0,0,0.1);
+  color: maroon;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 45px;
+  right: 28px;
+  width: 150px;
+  border-radius: 25px;
+}
+
+.rails-open-button-dark {
+  background-color: rgba(128,0,0,0.1);
+  color: black;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}
+
+.rails-dark-button-light {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  cursor:pointer;
+  overflow: hidden;        
+  color: maroon;
+  border: none;
+  cursor: pointer;
+  opacity: 0.6;
+  position: fixed;
+  top: 40px;
+  right: 2px;
+  width: 200px;
+}
+
+.rails-dark-button-dark {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  cursor:pointer;
+  overflow: hidden;        
+  color: black;
+  border: none;
+  cursor: pointer;
+  opacity: 0.6;
+  position: fixed;
+  top: 40px;
+  right: 2px;
+  width: 200px;
+}
+
+.rails-form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+.rails-form-container-light {
+  max-width: 300px;
+  padding: 10px;
+  background-color: rgba(128,0,0,0.2);
+}
+
+.rails-form-container-dark {
+  max-width: 300px;
+  padding: 10px;
+  background-color: #793d66;
+}
+
+.rails-form-container-light input[type=text] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+.rails-form-container-light .select {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+.rails-form-container-dark input[type=text] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #9b9a9a;
+}
+
+.rails-form-container-dark .select {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #9b9a9a;
+}
+
+.rails-form-container-light input[type=text]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.rails-form-container-light .select:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.rails-form-container-dark input[type=text]:focus {
+  background-color: rgb(151, 148, 148);
+  outline: none;
+}
+
+.rails-form-container-dark .select:focus {
+  background-color: rgb(151, 148, 148);
+  outline: none;
+}
+
+
+.rails-form-container-light .btn {
+  background-color: white;
+  color: maroon;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+.rails-form-container-dark .btn {
+  background-color: rgb(228, 220, 220);
+  color: black;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+.rails-form-container-light .cancel {
+  background-color: white;
+  color: maroon;
+}
+
+.rails-form-container-dark .cancel {
+  background-color: rgb(209, 202, 202);
+  color: black;
+}
+
+.rails-form-container-light .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+.rails-form-container-dark .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+.rails-tooltip {
+  position: relative;
+  display: block;
+}
+
+.rails-tooltip .rails-tooltiptext-light {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  right: 20px;
+  z-index: 1;
+}
+
+.rails-tooltip .rails-tooltiptext-dark {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  right: 20px;
+  z-index: 1;
+}
+
+.rails-tooltip:hover .rails-tooltiptext-light {
+  visibility: visible;
+  color:white;
+}
+
+.rails-tooltip:hover .rails-tooltiptext-dark {
+  visibility: visible;
+  color:white;
+}
+
+#copyright-footer {
+  font-size: 15px;
+}
+
+rails-tweet-holder {
+  margin: 2em 0;
+}
+
+.rails-tweet {
+  font-family: -apple-system, BlinkMacSystemFont, 'Open Sans', sans-serif;
+  font-size: 3em;
+  font-weight: 800;
+  height: 4em;
+  width: 64em;
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
+  display: table-cell;
+  vertical-align: middle;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.rails-bg-light {
+  background: -webkit-linear-gradient(110deg, #fecfef 40%,#ff9a9e  60%);
+  background: -o-linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
+  background: -moz-linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
+  background: linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
+}
+
+.rails-bg-dark {
+  background: -webkit-linear-gradient(110deg, #13020de7 40%,#0f0e0fbb  60%);
+  background: -o-linear-gradient(110deg, #13020de7 40%, #0f0e0fbb 60%);
+  background: -moz-linear-gradient(110deg, #13020de7 40%, #0f0e0fbb 60%);
+  background: linear-gradient(110deg, #13020de7 40%, #0f0e0fbb 60%);
+}
+
+.rails-text-light {
+  opacity: 0.5;
+  color: maroon;
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+.rails-text-dark {
+  opacity: 0.5;
+  color: rgb(255, 254, 254);
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+
+.rails-open-button-light {
+background-color: rgba(128,0,0,0.1);
+color: maroon;
+padding: 16px20px;
+border: none;
+cursor: pointer;
+opacity: 0.8;
+position: fixed;
+bottom: 45px;
+right: 28px;
+width: 150px;
+border-radius: 25px;
+}
+
+.rails-open-button-dark {
+background-color: rgba(128,0,0,0.1);
+color: black;
+padding: 16px20px;
+border: none;
+cursor: pointer;
+opacity: 0.8;
+position: fixed;
+bottom: 23px;
+right: 28px;
+width: 280px;
+}
+
+.rails-dark-button-light {
+background-color: Transparent;
+background-repeat:no-repeat;
+cursor:pointer;
+overflow: hidden;        
+color: maroon;
+border: none;
+cursor: pointer;
+opacity: 0.6;
+position: fixed;
+top: 40px;
+right: 2px;
+width: 200px;
+}
+
+.rails-dark-button-dark {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  cursor:pointer;
+  overflow: hidden;        
+  color: black;
+  border: none;
+  cursor: pointer;
+  opacity: 0.6;
+  position: fixed;
+  top: 40px;
+  right: 2px;
+  width: 200px;
+}
+
+.rails-form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+.rails-form-container-light {
+  max-width: 300px;
+  padding: 10px;
+  background-color: rgba(128,0,0,0.2);
+}
+
+.rails-form-container-dark {
+  max-width: 300px;
+  padding: 10px;
+  background-color: #0e020adc;
+}
+
+.rails-form-container-light input[type=text] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+.rails-form-container-light .select {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+.rails-form-container-dark input[type=text] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #9b9a9a;
+}
+
+.rails-form-container-dark .select {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #9b9a9a;
+}
+
+.rails-form-container-light input[type=text]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.rails-form-container-light .select:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.rails-form-container-dark input[type=text]:focus {
+  background-color: rgb(151, 148, 148);
+  outline: none;
+}
+
+.rails-form-container-dark .select:focus {
+  background-color: rgb(151, 148, 148);
+  outline: none;
+}
+
+.rails-form-container-light .btn {
+  background-color: white;
+  color: maroon;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+.rails-form-container-dark .btn {
+  background-color: rgb(228, 220, 220);
+  color: rgb(255, 255, 255);
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+.rails-form-container-light .cancel {
+  background-color: white;
+  color: maroon;
+}
+
+.rails-form-container-dark .cancel {
+  background-color: rgb(53, 48, 48);
+  color: rgb(248, 245, 245);
+}
+
+.rails-form-container-light .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+.rails-form-container-dark .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+
+.rails-tooltip {
+  position: relative;
+  display: block;
+}
+
+.rails-tooltip .rails-tooltiptext-light {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  right: 20px;
+  z-index: 1;
+}
+
+.rails-tooltip .rails-tooltiptext-dark {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  right: 20px;
+  z-index: 1;
+}
+
+.rails-tooltip:hover .rails-tooltiptext-light {
+  visibility: visible;
+  color:white;
+}
+
+.rails-tooltip:hover .rails-tooltiptext-dark {
+  visibility: visible;
+  color:white;
+}
+
+#copyright-footer {
+  font-size: 15px;
+}
+

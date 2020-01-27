@@ -3,6 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
+const cookieParser =  require('cookie-parser');
+const fs = require('fs');
 
 const Twitter = require('twitter');
 const apiKeys = {
@@ -13,10 +15,14 @@ const apiKeys = {
 }
 const T = new Twitter(apiKeys);
 
+app.use(cookieParser());
+app.use(express.static(__dirname + '/public'));
+
 app.get('/favicon.ico', (req, res) => res.sendStatus(204)); // No content
 
 app.get('/:parameters?', function(req, res) {  // '?' indicates the hashtag param is optional
-
+    //res.cookie('rails-theme','light');
+    //res.send
     const searchParams = {
         count: 10,
         lang: 'en'
@@ -24,6 +30,10 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates the hashtag para
 
     var searchedParams = `${req.params.parameters}`;
     var theme;
+    //{
+        //style : fs.readFileSync('C:\Users\\twitter.css','utf8')
+    //    style = 
+    //};
 
     if(req.params.parameters == undefined) {
         searchParams.q = '#Cerner';
@@ -79,7 +89,7 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates the hashtag para
 
                 if(count == tweets.length) {  // render index.ejs only when all callbacks but the current one have finished executing 
                     const uniqueEmbeddedTweets = new Set(embeddedTweets);
-                    res.render('index.ejs', {
+                    res.cookie('rails-theme','light').render('index.ejs', {
                         embeddedTweets: uniqueEmbeddedTweets,
                         searchParams: searchParams,
                         theme: theme

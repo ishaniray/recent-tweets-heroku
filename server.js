@@ -20,40 +20,36 @@ app.use(express.static(__dirname + '/css'));
 
 app.get('/favicon.ico', (req, res) => res.sendStatus(204)); // No content
 
-app.get('/:parameters?', function(req, res) {  // '?' indicates the hashtag param is optional
-    //res.cookie('rails-theme','light');
-    //res.send
+app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are optional
+
     const searchParams = {
+        q: '#Cerner',
         count: 10,
-        lang: 'en'
-    };
+        lang: 'en',
+        result_type: 'recent'
+    };  // defaults
 
-    var searchedParams = `${req.params.parameters}`;
-    var theme;
-    //{
-        //style : fs.readFileSync('C:\Users\\twitter.css','utf8')
-    //    style = 
-    //};
+    var railsTheme = req.cookies['rails-theme'];
+    if(railsTheme == undefined) {   // no cookie
+        railsTheme = 'light';    // default theme
+    }
 
-    if(req.params.parameters == undefined) {
-        searchParams.q = '#Cerner';
-        searchParams.result_type = 'recent';
-        theme = 'light';
-    } else {
-        var splitSearchedParams = searchedParams.split("-");
-        var hashtag = splitSearchedParams[0];
-        var type = splitSearchedParams[1];
-        var reqTheme = splitSearchedParams[2];
+    var userParams = req.params.parameters;
+    if(userParams != undefined) {
+        var splitUserParams = userParams.split("-");
 
-        searchParams.result_type = type;
-        searchParams.q = `#${hashtag}`;
+        searchParams.q = `#${splitUserParams[0]}`;  // first parameter - hashtag - passed; default value to be overridden
 
-        if(reqTheme.length == 0) {
-            theme = 'light';
+        if(splitUserParams.length > 1) {   // second parameter - result type - passed; default value to be overridden
+            searchParams.result_type = splitUserParams[1];
+        } 
+        
+        if(splitUserParams.length > 2) {    // third parameter - theme - passed; default value / previous cookie value to be overridden
+            railsTheme = splitUserParams[2];
         }
 
-        theme = reqTheme;
-    }
+        // TODO: Validate user params
+    } 
 
     T.get('search/tweets', searchParams, (err, data, response) => {
 		// In case of an error, return
@@ -67,16 +63,17 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates the hashtag para
             username: tweet.user.screen_name
         }));
 
-        var oembedParams = {};
+        var oembedParams = {
+            theme: railsTheme
+        };
         var embeddedTweets = [];
         var count = 0;   
             
-        for(var i = 0; i < tweets.length; ++i) {        
+        for(var i = 0; i < tweets.length; ++i) {
             var id = tweets[i].id;
             var username = tweets[i].username;
-            var fullUrl = `https://twitter.com/${username}/status/${id}`;
-            oembedParams.url = fullUrl;
-            oembedParams.theme = theme;
+
+            oembedParams.url = `https://twitter.com/${username}/status/${id}`;
 
             T.get('statuses/oembed', oembedParams , (err, oembedData, response) => {
                 count = count + 1;
@@ -89,10 +86,10 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates the hashtag para
 
                 if(count == tweets.length) {  // render index.ejs only when all callbacks but the current one have finished executing 
                     const uniqueEmbeddedTweets = new Set(embeddedTweets);
-                    res.cookie('rails-theme','light').render('index.ejs', {
+                    res.cookie('rails-theme', railsTheme).render('index.ejs', {
                         embeddedTweets: uniqueEmbeddedTweets,
                         searchParams: searchParams,
-                        theme: theme
+                        theme: railsTheme
                     });
                 }
             });

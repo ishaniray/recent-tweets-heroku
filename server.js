@@ -16,7 +16,7 @@ const apiKeys = {
 const T = new Twitter(apiKeys);
 
 app.use(cookieParser());
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/css'));
 
 app.get('/favicon.ico', (req, res) => res.sendStatus(204)); // No content
 

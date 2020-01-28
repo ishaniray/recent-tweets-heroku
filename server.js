@@ -4,7 +4,6 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const cookieParser =  require('cookie-parser');
-const fs = require('fs');
 
 const Twitter = require('twitter');
 const apiKeys = {
@@ -86,11 +85,11 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
 
                 if(count == tweets.length) {  // render index.ejs only when all callbacks but the current one have finished executing 
                     const uniqueEmbeddedTweets = new Set(embeddedTweets);
-                    res.cookie('rails-theme', railsTheme).render('index.ejs', {
+                    res.cookie('rails-theme', railsTheme, { maxAge: 2592000000 }).render('index.ejs', {
                         embeddedTweets: uniqueEmbeddedTweets,
                         searchParams: searchParams,
                         theme: railsTheme
-                    });
+                    }); // maxAge = 30 days
                 }
             });
         }

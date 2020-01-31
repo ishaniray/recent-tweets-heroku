@@ -24,10 +24,12 @@
 
                 <button class="rails-open-button-<%=theme%>" id="rails-search-button" onclick="openForm()">Search #</button>
 
-                <button class="rails-dark-button-<%=theme%>" id="rails-enable-dark-button">
+                <button class="rails-theme-toggle-<%=theme%>" id="rails-theme-toggle">
                     <span class="rails-tooltip">
                         <i class="fa fa-lightbulb-o" style="font-size:36px;color:rgb(117, 33, 33)"></i>
-                        <span class="rails-tooltiptext-<%=theme%>" id="theme-status">Enter Dark Mode</span>
+                        <span class="rails-tooltiptext-<%=theme%>" id="theme-status">
+                            <% if(theme == 'light') { %>Dark<% } else { %>Light<% } %> Theme
+                        </span>
                     </span>
                 </button>
 
@@ -41,85 +43,6 @@
             </div>
         </div>
         <script>
-            $('#rails-button-id').click(function(e){
-                e.preventDefault();
-                var hashtag = $('#rails-hashtag-id').val();
-                if(hashtag.trim().length==0) {
-                    alert('Your search query is empty. We will search #Cerner for you...');
-                    hashtag = "Cerner";
-                }
-
-                var resultType = $('#result-type').val();
-                var redirectUrl = getRedirectUrl(hashtag, resultType);
-                
-                window.location.href = redirectUrl;
-                return false;
-            });
-
-            function getRedirectUrl(hashtag, resultType) {
-                var getUrl = window.location;
-                var lastPosOfSlash = getUrl.toString().lastIndexOf("/");
-                var urlLength = getUrl.toString().length;
-                var redirectUrl;
-                
-                var parameters = getUrl.toString().substring(lastPosOfSlash + 1, urlLength);
-                var params;
-                var theme = 'none';
-
-                if(parameters.length != 0) {
-                    params = parameters.split("-");
-                    if(params.length == 3) {
-                        if(params[2].length != 0) {
-                            theme = params[2];
-                        } 
-                    } 
-                } 
-
-                if(theme == 'none') {
-                    if($("#theme-status").hasClass("rails-tooltiptext-light")) {
-                        theme = "dark";
-                        $("#theme-status").addClass("rails-tooltiptext-dark");
-                        $("#theme-status").html("Enter Lite Mode");
-                    } else {
-                        theme = "light";
-                        $("#theme-status").addClass("rails-tooltiptext-light");
-                        $("#theme-status").html("Enter Dark Mode");
-                    }
-                }
-
-                if(lastPosOfSlash == urlLength-1) {
-                    redirectUrl = getUrl.toString() + hashtag + "-" + resultType + "-" + theme;
-                } else {
-                    redirectUrl = getUrl.toString().replace(getUrl.toString().substring(lastPosOfSlash + 1, urlLength), hashtag + "-" + resultType + "-" + theme);
-                }
-                return redirectUrl;
-            }
-
-            function getTheme(hashtag, resultType) {
-                var getUrl = window.location;
-                var lastPosOfSlash = getUrl.toString().lastIndexOf("/");
-                var urlLength = getUrl.toString().length;
-                var redirectUrl;
-                
-                var parameters = getUrl.toString().substring(lastPosOfSlash + 1, urlLength);
-                var params;
-                var theme = 'none';
-
-                if(parameters.length != 0) {
-                    params = parameters.split("-");
-                    if(params.length == 3) {
-                        if(params[2].length != 0) {
-                            theme = params[2];
-                        } 
-                    } 
-                } 
-
-                if(theme == 'none' || theme != 'light' || theme != 'dark' ) {
-                    theme = 'light';
-                }
-                return theme;
-            }
-
             function openForm() {
                 document.getElementById("railsForm").style.display = "block";
                 document.getElementById("rails-search-button").style.display = "none";
@@ -130,56 +53,57 @@
                 document.getElementById("rails-search-button").style.display = "block";
             }
 
-            $("#rails-enable-dark-button").click(function(e){
-                var getUrl = window.location;
-                var lastPosOfSlash = getUrl.toString().lastIndexOf("/");
-                var urlLength = getUrl.toString().length;
-                var redirectUrl;
-                
-                var parameters = getUrl.toString().substring(lastPosOfSlash + 1, urlLength);
-                var params;
-                var hashtag;
-                var resultType;
-                var theme = 'none';
+            function getRedirectUrl(hashtag, resultType, theme = 'none') {
+                var hostname = window.location.hostname;
+                var port = window.location.port;
+                var pathname = `/${hashtag}-${resultType}`;
+                if(theme != 'none') {
+                    pathname = `${pathname}-${theme}`;
+                }
+                if(port.length > 0) {
+                    return `http://${hostname}:${port}${pathname}`;
+                }
+                return `http://${hostname}${pathname}`; 
+            }
 
-                if(parameters.length != 0) {
-                    params = parameters.split("-");
-                    if(params.length == 3) {
-                        if(params[2].length != 0) {
-                            theme = params[2];
-                        }
-                        if(params[1].length != 0) {
-                            resultType = params[1];
-                        } 
-                        if(params[0].length != 0) {
-                            hashtag = params[0];
-                        } 
-                    } 
-                } else {
+            $('#rails-button-id').click(function(e){
+                var hashtag = $('#rails-hashtag-id').val();
+                if(hashtag.trim().length==0) {
+                    alert('Your search query is empty. We will search #Cerner for you...');
                     hashtag = "Cerner";
-                    resultType = "recent";
+                }
+                var resultType = $('#result-type').val();
+                
+                window.location.href = getRedirectUrl(hashtag, resultType);
+
+                return false;
+            });
+
+            $("#rails-theme-toggle").click(function(e){
+                var hashtag = 'Cerner';
+                var resultType = 'recent';
+                var theme = 'light';
+
+                var pathname = window.location.pathname;
+                var urlParams = pathname.replace('/', '');
+
+                if(urlParams.length > 0) {
+                    var splitUrlParams = urlParams.split("-");
+
+                    hashtag = splitUrlParams[0];
+
+                    if(splitUrlParams.length > 1) {
+                        resultType = splitUrlParams[1];
+                    }
                 }
                 
                 if($("#theme-status").hasClass("rails-tooltiptext-light")) {
-                    theme = "dark";
-                    $("#theme-status").addClass("rails-tooltiptext-dark");
-                    $("#theme-status").html("Enter Lite Mode");
-                } else {
-                    theme = "light";
-                    $("#theme-status").addClass("rails-tooltiptext-light");
-                    $("#theme-status").html("Enter Dark Mode");
-                }
-                
-                if(lastPosOfSlash == urlLength-1) {
-                    redirectUrl = getUrl.toString() + hashtag + "-" + resultType + "-" + theme;
-                } else {
-                    redirectUrl = getUrl.toString().replace(getUrl.toString().substring(lastPosOfSlash + 1, urlLength), hashtag + "-" + resultType + "-" + theme);
+                    theme = 'dark';
                 }
 
-                var newRedirectUrl = redirectUrl.replace(redirectUrl.substring(redirectUrl.lastIndexOf("-") + 1, redirectUrl.length), theme);
-                //alert(document.cookie);
-                window.location.href = newRedirectUrl;
+                window.location.href = getRedirectUrl(hashtag, resultType, theme);
 
+                return false;
             });
         </script>
     </body>   

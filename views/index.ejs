@@ -3,11 +3,20 @@
         <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
         <title>RAILS</title>
         <link href="/css/rails.css" rel="stylesheet" type="text/css">
-        <link rel="icon" href="/images/railsFavicon.png" sizes="16x16 32x32" type="image/png">
+        <link rel="icon" href="/images/railsFavicon.png" type="image/png">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     </head>
     <body>  
+
+        <div id="railsCookieModal" class="rails-modal">
+            <div class="rails-modal-content">
+                <div id="closeCookie" class="rails-close">
+                  <div class="center">This website is using cookies. &nbsp;&nbsp;<button>Accept</button> &nbsp;&nbsp;<button>More Info</button></div>
+                </div>
+            </div>
+        </div>
+
         <div class="rails-form-popup" id="railsForm">
             <form id="rails-form-id" class="rails-form-container-<%=theme%>" action="\" method="POST">
                 <input type="text" id="rails-hashtag-id" placeholder="hashtag" required/>
@@ -44,6 +53,15 @@
             </div>
         </div>
         <script>
+            var closeCookieButton = document.getElementById("closeCookie");
+            closeCookieButton.onclick = function() {
+                document.getElementById('railsCookieModal').style.display = "none";
+            }
+
+            function cookieAlert() {
+                document.getElementById("railsCookieModal").stye.display = "block";
+            }
+
             function openForm() {
                 document.getElementById("railsForm").style.display = "block";
                 document.getElementById("rails-search-button").style.display = "none";

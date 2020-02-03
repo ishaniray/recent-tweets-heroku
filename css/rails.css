@@ -23,10 +23,10 @@
 }
 
 .rails-bg-dark {
-  background: -webkit-linear-gradient(110deg, #5a314d 40%,#966466  60%);
-  background: -o-linear-gradient(110deg, #5a314d 40%, #966466 60%);
-  background: -moz-linear-gradient(110deg, #5a314d 40%, #966466 60%);
-  background: linear-gradient(110deg, #5a314d 40%, #966466 60%);
+  background: -webkit-linear-gradient(110deg, #13020de7 40%,#0f0e0fbb  60%);
+  background: -o-linear-gradient(110deg, #13020de7 40%, #0f0e0fbb 60%);
+  background: -moz-linear-gradient(110deg, #13020de7 40%, #0f0e0fbb 60%);
+  background: linear-gradient(110deg, #13020de7 40%, #0f0e0fbb 60%);
 }
 
 .rails-text-light {
@@ -37,7 +37,7 @@
 
 .rails-text-dark {
   opacity: 0.5;
-  color: rgb(48, 2, 2);
+  color: rgb(255, 254, 254);
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 
@@ -57,7 +57,7 @@
 
 .rails-open-button-dark {
   background-color: rgba(128,0,0,0.1);
-  color: black;
+  color: rgb(255, 255, 255);
   padding: 16px 20px;
   border: none;
   cursor: pointer;
@@ -116,7 +116,7 @@
 .rails-form-container-dark {
   max-width: 300px;
   padding: 10px;
-  background-color: #793d66;
+  background-color: #0e020adc;
 }
 
 .rails-form-container-light input[type=text] {
@@ -185,7 +185,7 @@
 
 .rails-form-container-dark .btn {
   background-color: rgb(228, 220, 220);
-  color: black;
+  color: rgb(255, 255, 255);
   padding: 16px 20px;
   border: none;
   cursor: pointer;
@@ -200,8 +200,8 @@
 }
 
 .rails-form-container-dark .cancel {
-  background-color: rgb(209, 202, 202);
-  color: black;
+  background-color: rgb(53, 48, 48);
+  color: rgb(248, 245, 245);
 }
 
 .rails-form-container-light .btn:hover, .open-button:hover {
@@ -227,8 +227,7 @@
   padding: 5px 0;
 
   /* Position the tooltip */
-  position: absolute;
-  right: 20px;
+  position: relative;
   z-index: 1;
 }
 
@@ -242,8 +241,7 @@
   padding: 5px 0;
 
   /* Position the tooltip */
-  position: absolute;
-  right: 20px;
+  position: relative;
   z-index: 1;
 }
 

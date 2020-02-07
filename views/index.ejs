@@ -6,16 +6,9 @@
         <link rel="icon" href="/images/railsFavicon.png" type="image/png">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="/resources/script/rails.js"></script>        
     </head>
     <body>  
-
-        <div id="railsCookieModal" class="rails-modal">
-            <div class="rails-modal-content">
-                <div id="closeCookie" class="rails-close">
-                  <div class="center">This website is using cookies. &nbsp;&nbsp;<button>Accept</button> &nbsp;&nbsp;<button>More Info</button></div>
-                </div>
-            </div>
-        </div>
 
         <div class="rails-form-popup" id="railsForm">
             <form id="rails-form-id" class="rails-form-container-<%=theme%>" action="\" method="POST">
@@ -28,6 +21,7 @@
                 <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
             </form>
         </div>
+        
         <div class="rails-tweet-holder" id="tweet-holder">
             <div class="rails-tweet rails-bg-<%=theme%>" id="tweet-bg">
                 <h4 class="rails-text-<%=theme%>" align='center'><%= searchParams.result_type.charAt(0).toUpperCase() + searchParams.result_type.slice(1) %> Tweets about <%= searchParams.q %></h4>
@@ -51,16 +45,23 @@
 
                 <div class="rails-text-<%=theme%>" id="copyright-footer">&copy; <%- new Date().getFullYear() %> RAILS</div>
             </div>
+        
+            <div id="rails-cookieConsent">
+                <div id="rails-closeCookieConsent">x</div>
+                This website is using cookies. <button>More info</button> <a class="rails-cookieConsentOK" href="#" target="_blank">Accept</a>
+            </div>
+        
         </div>
-        <script>
-            var closeCookieButton = document.getElementById("closeCookie");
-            closeCookieButton.onclick = function() {
-                document.getElementById('railsCookieModal').style.display = "none";
-            }
 
-            function cookieAlert() {
-                document.getElementById("railsCookieModal").stye.display = "block";
-            }
+        <script>
+            $(document).ready(function(){   
+                setTimeout(function () {
+                    $("#rails-cookieConsent").fadeIn(200);
+                }, 1000);
+                $("#rails-closeCookieConsent, .rails-cookieConsentOK").click(function() {
+                    $("#rails-cookieConsent").fadeOut(200);
+                }); 
+            }); 
 
             function openForm() {
                 document.getElementById("railsForm").style.display = "block";

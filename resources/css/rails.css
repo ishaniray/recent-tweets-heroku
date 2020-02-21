@@ -63,16 +63,17 @@
   cursor: pointer;
   opacity: 0.8;
   position: fixed;
-  bottom: 23px;
+  bottom: 45px;
   right: 28px;
-  width: 280px;
+  width: 150px;
+  border-radius: 25px;
 }
 
 .rails-theme-toggle-light {
   background-color: Transparent;
   background-repeat:no-repeat;
   cursor:pointer;
-  overflow: hidden;        
+  overflow: hidden;
   color: maroon;
   border: none;
   cursor: pointer;
@@ -87,7 +88,7 @@
   background-color: Transparent;
   background-repeat:no-repeat;
   cursor:pointer;
-  overflow: hidden;        
+  overflow: hidden;
   color: black;
   border: none;
   cursor: pointer;

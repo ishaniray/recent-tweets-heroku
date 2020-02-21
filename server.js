@@ -13,7 +13,6 @@ const apiKeys = {
     access_token_secret: process.env.ACCESS_TOKEN_SECRET
 }
 const T = new Twitter(apiKeys);
-// This is a comment
 
 app.use(cookieParser());
 app.use(express.static(__dirname + '/resources'));

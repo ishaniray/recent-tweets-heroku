@@ -13,6 +13,7 @@ const apiKeys = {
     access_token_secret: process.env.ACCESS_TOKEN_SECRET
 }
 const T = new Twitter(apiKeys);
+// This is a comment
 
 app.use(cookieParser());
 app.use(express.static(__dirname + '/resources'));
@@ -41,14 +42,14 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
 
         if(splitUserParams.length > 1) {   // second parameter - result type - passed; default value to be overridden
             searchParams.result_type = splitUserParams[1];
-        } 
-        
+        }
+
         if(splitUserParams.length > 2) {    // third parameter - theme - passed; default value / previous cookie value to be overridden
             railsTheme = splitUserParams[2];
         }
 
         // TODO: Validate user params
-    } 
+    }
 
     T.get('search/tweets', searchParams, (err, data, response) => {
 		// In case of an error, return
@@ -57,7 +58,7 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
         }
 
         // Loop through the returned tweets and extract relevant information
-        const tweets = data.statuses.map(tweet => ({ 
+        const tweets = data.statuses.map(tweet => ({
             id: tweet.id_str,
             username: tweet.user.screen_name
         }));
@@ -66,8 +67,8 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
             theme: railsTheme
         };
         var embeddedTweets = [];
-        var count = 0;   
-            
+        var count = 0;
+
         for(var i = 0; i < tweets.length; ++i) {
             var id = tweets[i].id;
             var username = tweets[i].username;
@@ -83,7 +84,7 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
 
                 embeddedTweets.push(oembedData.html);
 
-                if(count == tweets.length) {  // render index.ejs only when all callbacks but the current one have finished executing 
+                if(count == tweets.length) {  // render index.ejs only when all callbacks but the current one have finished executing
                     const uniqueEmbeddedTweets = new Set(embeddedTweets);
                     res.cookie('rails-theme', railsTheme, { maxAge: 2592000000 }).render('index.ejs', {
                         embeddedTweets: uniqueEmbeddedTweets,

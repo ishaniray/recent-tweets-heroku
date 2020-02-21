@@ -9,7 +9,7 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
     </head>
-    <body>  
+    <body>
         <div class="rails-se-pre-con"></div>
 
         <div class="rails-form-popup" id="railsForm">
@@ -23,7 +23,7 @@
                 <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
             </form>
         </div>
-        
+
         <div class="rails-tweet-holder" id="tweet-holder">
             <div class="rails-tweet rails-bg-<%=theme%>" id="tweet-bg">
                 <h4 class="rails-text-<%=theme%>" align='center'><%= searchParams.result_type.charAt(0).toUpperCase() + searchParams.result_type.slice(1) %> Tweets about <%= searchParams.q %></h4>
@@ -32,7 +32,11 @@
 
                 <button class="rails-theme-toggle-<%=theme%>" id="rails-theme-toggle">
                     <span class="rails-tooltip">
-                        <i class="fa fa-lightbulb-o" style="font-size:36px;color:rgb(114, 182, 26)"></i>
+                      <% if(theme == 'light'){ %>
+                        <i class="fa fa-lightbulb-o" style="font-size:36px;color:maroon"></i>
+                      <%}
+                      else{%>
+                          <i class="fa fa-lightbulb-o" style="font-size:36px;color:rgb(255, 254, 254)"></i> <%}%>
                         <span class="rails-tooltiptext-<%=theme%>" id="theme-status">
                             <% if(theme == 'light') { %>Dark<% } else { %>Light<% } %> Theme
                         </span>
@@ -43,20 +47,20 @@
                     <% embeddedTweets.forEach(function(tweet) { %>
                         <div><%- tweet %></div> <!-- Use "-" instead of "=" for unescaped raw (HTML) output -->
                     <% }); %>
-                </div> 
+                </div>
 
                 <div class="rails-text-<%=theme%>" id="copyright-footer">&copy; <%- new Date().getFullYear() %> RAILS</div>
             </div>
-        
+
             <div id="rails-cookieConsent">
                 <div id="rails-closeCookieConsent">x</div>
                 This website is using cookies. By continuing, you show your consent.<button>Privacy Policy</button>
             </div>
-        
+
         </div>
 
         <script>
-            $(document).ready(function(){   
+            $(document).ready(function(){
                 setTimeout(function () {
                     if(getCookie("acceptCookie") != "true") {
                         $("#rails-cookieConsent").fadeIn(200);
@@ -66,8 +70,8 @@
                     $("#rails-cookieConsent").fadeOut(200);
                     setCookie("acceptCookie","true","7000");
                 });
-                
-            }); 
+
+            });
 
             $(window).load(function() {
 		        $(".rails-se-pre-con").fadeOut("slow");
@@ -94,7 +98,7 @@
                 if(port.length > 0) {
                     return `http://${hostname}:${port}${pathname}`;
                 }
-                return `http://${hostname}${pathname}`; 
+                return `http://${hostname}${pathname}`;
             }
 
             function setCookie(cookieName, cookieValue, exdays) {
@@ -127,7 +131,7 @@
                     hashtag = "Cerner";
                 }
                 var resultType = $('#result-type').val();
-                
+
                 window.location.href = getRedirectUrl(hashtag, resultType);
 
                 return false;
@@ -150,7 +154,7 @@
                         resultType = splitUrlParams[1];
                     }
                 }
-                
+
                 if($("#theme-status").hasClass("rails-tooltiptext-light")) {
                     theme = 'dark';
                 }
@@ -160,5 +164,5 @@
                 return false;
             });
         </script>
-    </body>   
+    </body>
 </html>

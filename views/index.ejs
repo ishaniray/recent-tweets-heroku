@@ -54,24 +54,29 @@
 
             <div id="rails-cookieConsent">
                 <div id="rails-closeCookieConsent">x</div>
-                This website is using cookies. By continuing, you show your consent.<button>Privacy Policy</button>
+                This website is using Web Storage. By continuing, you show your consent.<button>Privacy Policy</button>
             </div>
 
         </div>
 
         <script>
-            $(document).ready(function(){
+            $(document).ready(function(){   
                 setTimeout(function () {
-                    if(getCookie("acceptCookie") != "true") {
+                    if(typeof(Storage) !== "undefined") {
+                        if(localStorage.getItem("acceptCookie") == null) {
+                            $("#rails-cookieConsent").fadeIn(200);
+                        }
+                    } else {
+                        alert('Your browser does not suppor Web Storage');
                         $("#rails-cookieConsent").fadeIn(200);
                     }
                 }, 1000);
                 $("#rails-closeCookieConsent").click(function() {
                     $("#rails-cookieConsent").fadeOut(200);
-                    setCookie("acceptCookie","true","7000");
+                    localStorage.setItem("acceptCookie", "true");
                 });
-
-            });
+                
+            }); 
 
             $(window).load(function() {
 		        $(".rails-se-pre-con").fadeOut("slow");

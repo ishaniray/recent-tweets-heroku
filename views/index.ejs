@@ -67,7 +67,7 @@
                             $("#rails-cookieConsent").fadeIn(200);
                         }
                     } else {
-                        alert('Your browser does not suppor Web Storage');
+                        alert('Your browser does not support Web Storage');
                         $("#rails-cookieConsent").fadeIn(200);
                     }
                 }, 1000);
@@ -105,27 +105,15 @@
                 return `http://${hostname}${pathname}`;
             }
 
-            function setCookie(cookieName, cookieValue, exdays) {
-                var date = new Date();
-                date.setTime(date.getTime() + (exdays*24*60*60*1000));
-                var expires = "expires="+ d.toUTCString();
-                document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
-            }
+            function getEndpointUrl() {
+                var hostname = window.location.hostname;
+                var port = window.location.port;
+                var endPoint = `/endpoint`;
 
-            function getCookie(cookieName) {
-                var name = cookieName + "=";
-                var decodedCookie = decodeURIComponent(document.cookie);
-                var ca = decodedCookie.split(';');
-                for(var i = 0; i <ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ') {
-                        c = c.substring(1);
-                    }
-                    if (c.indexOf(name) == 0) {
-                        return c.substring(name.length, c.length);
-                    }
+                if(port.length > 0) {
+                    return `http://${hostname}:${port}${endPoint}`;
                 }
-                return "";
+                return `http://${hostname}${endPoint}`;
             }
 
             $('#rails-button-id').click(function(e){
@@ -135,6 +123,22 @@
                     hashtag = "Cerner";
                 }
                 var resultType = $('#result-type').val();
+
+                var endPointUrl = getEndpointUrl();
+
+                var data = {};
+                data.resultType = resultType;
+                data.hashtag = hashtag;
+					
+                $.ajax({
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    url: endPointUrl,						
+                    success: function(data) {
+                        console.log('success');
+                    }
+                });
 
                 window.location.href = getRedirectUrl(hashtag, resultType);
 

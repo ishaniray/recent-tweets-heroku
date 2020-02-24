@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const cookieParser =  require('cookie-parser');
+const bodyParser = require('body-parser');
 
 const Twitter = require('twitter');
 const apiKeys = {
@@ -14,6 +15,7 @@ const apiKeys = {
 }
 const T = new Twitter(apiKeys);
 
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(__dirname + '/resources'));
 
@@ -94,6 +96,11 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
             });
         }
     });
+});
+
+app.post('/endpoint', function(req, res){
+	var obj = {};
+	console.log('body: ' + JSON.stringify(req.body));
 });
 
 const server = http.listen(8080, function() {

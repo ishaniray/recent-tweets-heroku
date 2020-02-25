@@ -360,11 +360,10 @@ rails-tweet-holder {
 .rating > span:hover ~ span {
   color: transparent;
 }
-.rating > span:hover:before,
-.rating > span:hover ~ span:before {
+.rating > span:hover::before,
+.rating > span:hover ~ span::before {
    content: "\2605";
    position: absolute;
-   left: 0; 
+   left: 0;
    color: gold;
 }
-

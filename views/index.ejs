@@ -13,7 +13,7 @@
         <div class="rails-se-pre-con"></div>
 
         <div class="rating">
-            <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+            <span onclick="rate(5)">☆</span><span onclick="rate(4)">☆</span><span onclick="rate(3)">☆</span><span onclick="rate(2)">☆</span><span onclick="rate(1)">☆</span>
         </div>
 
         <div class="rails-form-popup" id="railsForm">
@@ -58,13 +58,13 @@
 
             <div id="rails-cookieConsent">
                 <div id="rails-closeCookieConsent">x</div>
-                This website is using Web Storage. By continuing, you show your consent.<button>Privacy Policy</button>
+                This website is using cookies. By continuing, you show your consent. <button>Privacy Policy</button>
             </div>
 
         </div>
 
         <script>
-            $(document).ready(function(){   
+            $(document).ready(function(){
                 setTimeout(function () {
                     if(typeof(Storage) !== "undefined") {
                         if(localStorage.getItem("acceptCookie") == null) {
@@ -79,8 +79,8 @@
                     $("#rails-cookieConsent").fadeOut(200);
                     localStorage.setItem("acceptCookie", "true");
                 });
-                
-            }); 
+
+            });
 
             $(window).load(function() {
 		        $(".rails-se-pre-con").fadeOut("slow");
@@ -109,10 +109,10 @@
                 return `http://${hostname}${pathname}`;
             }
 
-            function getEndpointUrl() {
+            function getEndpointUrl(endpoint) {
                 var hostname = window.location.hostname;
                 var port = window.location.port;
-                var endPoint = `/endpoint`;
+                var endPoint = `/${endpoint}`;
 
                 if(port.length > 0) {
                     return `http://${hostname}:${port}${endPoint}`;
@@ -128,17 +128,17 @@
                 }
                 var resultType = $('#result-type').val();
 
-                var endPointUrl = getEndpointUrl();
+                var endPointUrl = getEndpointUrl("searched");
 
                 var data = {};
                 data.resultType = resultType;
                 data.hashtag = hashtag;
-					
+
                 $.ajax({
                     type: 'POST',
                     data: JSON.stringify(data),
                     contentType: 'application/json',
-                    url: endPointUrl,						
+                    url: endPointUrl,
                     success: function(data) {
                         console.log('success');
                     }
@@ -175,6 +175,25 @@
 
                 return false;
             });
+
+            function rate(userRating) {
+              alert("Thanks for your feedback!");
+
+              var endPointUrl = getEndpointUrl("rating");
+              var data = {
+                rating: userRating
+              };
+
+              $.ajax({
+                  type: 'POST',
+                  data: JSON.stringify(data),
+                  contentType: 'application/json',
+                  url: endPointUrl,
+                  success: function(data) {
+                      console.log('Rating posted.');
+                  }
+              });
+            }
         </script>
     </body>
 </html>

@@ -98,9 +98,13 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
     });
 });
 
-app.post('/endpoint', function(req, res){
+app.post('/searched', function(req, res){
 	var obj = {};
 	console.log('body: ' + JSON.stringify(req.body));
+});
+
+app.post('/rating', function(req, res) {
+	console.log('Rating received: ' + JSON.parse(JSON.stringify(req.body)).rating);
 });
 
 const server = http.listen(8080, function() {

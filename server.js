@@ -5,6 +5,7 @@ const app = express();
 const http = require('http').Server(app);
 const cookieParser =  require('cookie-parser');
 const bodyParser = require('body-parser');
+const mysql = require('mysql');
 
 const Twitter = require('twitter');
 const apiKeys = {
@@ -14,6 +15,13 @@ const apiKeys = {
     access_token_secret: process.env.ACCESS_TOKEN_SECRET
 }
 const T = new Twitter(apiKeys);
+
+var conn = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "recent-tweets"
+});
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -99,12 +107,27 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
 });
 
 app.post('/searched', function(req, res){
-	var obj = {};
-	console.log('body: ' + JSON.stringify(req.body));
+    var obj = {};
+    obj.resultType = JSON.parse(JSON.stringify(req.body)).resultType;
+    obj.hashtag = JSON.parse(JSON.stringify(req.body)).hashtag;
+    var sql = "INSERT INTO searched(resultType,hashtag) VALUES ( '" + obj.resultType + "','" + obj.hashtag + "')";
+    conn.query(sql, function (err, result) {
+        if (err) { 
+            throw err;
+        }
+        console.log(sql + " executed successfully");
+    });
 });
 
 app.post('/rating', function(req, res) {
-	console.log('Rating received: ' + JSON.parse(JSON.stringify(req.body)).rating);
+    var rating = JSON.parse(JSON.stringify(req.body)).rating;
+    var sql = "INSERT INTO ratings(userRating) VALUES (" + rating + ")";
+    conn.query(sql, function (err, result) {
+        if (err) { 
+            throw err;
+        }
+        console.log(sql + " executed successfully");
+    });
 });
 
 const server = http.listen(8080, function() {

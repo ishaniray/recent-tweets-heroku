@@ -16,11 +16,12 @@ const apiKeys = {
 }
 const T = new Twitter(apiKeys);
 
-var conn = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "recent-tweets"
+var connection = mysql.createConnection({
+    host: process.env.RDS_HOSTNAME,
+    port: process.env.RDS_PORT,
+    database: process.env.RDS_DB_NAME,
+    user: process.env.RDS_USERNAME,
+    password: process.env.RDS_PASSWORD
 });
 
 app.use(bodyParser.json());
@@ -60,6 +61,22 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
         // TODO: Validate user params
     }
 
+    var createTable = `create table if not exists SearchedTerms (
+                          Id int primary key auto_increment,
+                          Hashtag varchar(255) not null,
+                          ResultType varchar(255) not null,
+                          SearchedAt timestamp not null
+                       )`;
+    connection.query(createTable, function (err, result, fields) {
+      if (err) throw err;
+    });
+
+    var recordSearchedTerms = `insert into SearchedTerms (Hashtag, ResultType, SearchedAt) values ('${searchParams.q}', '${searchParams.result_type}', CURRENT_TIMESTAMP)`;
+    connection.query(recordSearchedTerms, function (err, result, fields) {
+      if (err) throw err;
+      console.log("Search parameters recorded in the database.");
+    });
+
     T.get('search/tweets', searchParams, (err, data, response) => {
 		// In case of an error, return
         if(err) {
@@ -95,6 +112,7 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
 
                 if(count == tweets.length) {  // render index.ejs only when all callbacks but the current one have finished executing
                     const uniqueEmbeddedTweets = new Set(embeddedTweets);
+
                     res.cookie('rails-theme', railsTheme, { maxAge: 2592000000 }).render('index.ejs', {
                         embeddedTweets: uniqueEmbeddedTweets,
                         searchParams: searchParams,
@@ -106,27 +124,22 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
     });
 });
 
-app.post('/searched', function(req, res){
-    var obj = {};
-    obj.resultType = JSON.parse(JSON.stringify(req.body)).resultType;
-    obj.hashtag = JSON.parse(JSON.stringify(req.body)).hashtag;
-    var sql = "INSERT INTO searched(resultType,hashtag) VALUES ( '" + obj.resultType + "','" + obj.hashtag + "')";
-    conn.query(sql, function (err, result) {
-        if (err) { 
-            throw err;
-        }
-        console.log(sql + " executed successfully");
-    });
-});
-
 app.post('/rating', function(req, res) {
     var rating = JSON.parse(JSON.stringify(req.body)).rating;
-    var sql = "INSERT INTO ratings(userRating) VALUES (" + rating + ")";
-    conn.query(sql, function (err, result) {
-        if (err) { 
-            throw err;
-        }
-        console.log(sql + " executed successfully");
+
+    var createTable = `create table if not exists UserRatings (
+                          Id int primary key auto_increment,
+                          Rating int not null,
+                          PostedAt timestamp not null
+                       )`;
+    connection.query(createTable, function (err, result, fields) {
+      if (err) throw err;
+    });
+
+    var postRating = `insert into UserRatings (Rating, PostedAt) values (${rating}, CURRENT_TIMESTAMP)`;
+    connection.query(postRating, function (err, result, fields) {
+      if (err) throw err;
+      console.log("User rating recorded in database.");
     });
 });
 

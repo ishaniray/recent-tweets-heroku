@@ -10,8 +10,6 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
     </head>
     <body>
-        <div class="rails-se-pre-con"></div>
-
         <div class="rating">
             <span onclick="rate(5)">☆</span><span onclick="rate(4)">☆</span><span onclick="rate(3)">☆</span><span onclick="rate(2)">☆</span><span onclick="rate(1)">☆</span>
         </div>
@@ -127,22 +125,6 @@
                     hashtag = "Cerner";
                 }
                 var resultType = $('#result-type').val();
-
-                var endPointUrl = getEndpointUrl("searched");
-
-                var data = {};
-                data.resultType = resultType;
-                data.hashtag = hashtag;
-
-                $.ajax({
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    url: endPointUrl,
-                    success: function(data) {
-                        console.log('success');
-                    }
-                });
 
                 window.location.href = getRedirectUrl(hashtag, resultType);
 

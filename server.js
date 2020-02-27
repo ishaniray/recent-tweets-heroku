@@ -59,23 +59,15 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
         }
 
         // TODO: Validate user params
+
+        var recordSearchedTerms = `insert into SearchedTerms (Hashtag, ResultType, SearchedAt) values ('${searchParams.q}', '${searchParams.result_type}', CURRENT_TIMESTAMP)`;
+        connection.query(recordSearchedTerms, function (err, result, fields) {
+          if (err) {
+            return console.log(err);
+          };
+          console.log("Search parameters recorded in the database.");
+        });
     }
-
-    var createTable = `create table if not exists SearchedTerms (
-                          Id int primary key auto_increment,
-                          Hashtag varchar(255) not null,
-                          ResultType varchar(255) not null,
-                          SearchedAt timestamp not null
-                       )`;
-    connection.query(createTable, function (err, result, fields) {
-      if (err) throw err;
-    });
-
-    var recordSearchedTerms = `insert into SearchedTerms (Hashtag, ResultType, SearchedAt) values ('${searchParams.q}', '${searchParams.result_type}', CURRENT_TIMESTAMP)`;
-    connection.query(recordSearchedTerms, function (err, result, fields) {
-      if (err) throw err;
-      console.log("Search parameters recorded in the database.");
-    });
 
     T.get('search/tweets', searchParams, (err, data, response) => {
 		// In case of an error, return
@@ -127,18 +119,11 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
 app.post('/rating', function(req, res) {
     var rating = JSON.parse(JSON.stringify(req.body)).rating;
 
-    var createTable = `create table if not exists UserRatings (
-                          Id int primary key auto_increment,
-                          Rating int not null,
-                          PostedAt timestamp not null
-                       )`;
-    connection.query(createTable, function (err, result, fields) {
-      if (err) throw err;
-    });
-
     var postRating = `insert into UserRatings (Rating, PostedAt) values (${rating}, CURRENT_TIMESTAMP)`;
     connection.query(postRating, function (err, result, fields) {
-      if (err) throw err;
+      if (err) {
+        return console.log(err);
+      };
       console.log("User rating recorded in database.");
     });
 });

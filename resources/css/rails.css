@@ -16,10 +16,10 @@
 }
 
 .rails-bg-light {
-  background: -webkit-linear-gradient(110deg, #fecfef 40%,#ff9a9e  60%);
-  background: -o-linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
-  background: -moz-linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
-  background: linear-gradient(110deg, #fecfef 40%, #ff9a9e 60%);
+  background: -webkit-linear-gradient(110deg, #34e89e 40%,#0f3443  60%);
+  background: -o-linear-gradient(110deg, #34e89e 40%, #0f3443 60%);
+  background: -moz-linear-gradient(110deg, #34e89e 40%, #0f3443 60%);
+  background: linear-gradient(110deg, #34e89e 40%, #0f3443 60%);
 }
 
 .rails-bg-dark {
@@ -31,7 +31,7 @@
 
 .rails-text-light {
   opacity: 0.5;
-  color: maroon;
+  color: rgb(7, 0, 0);
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 
@@ -43,7 +43,7 @@
 
 .rails-open-button-light {
   background-color: rgba(128,0,0,0.1);
-  color: maroon;
+  color: rgb(250, 249, 249);
   padding: 16px 20px;
   border: none;
   cursor: pointer;

@@ -35,7 +35,7 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
     var userParams = req.params.parameters;
 
     if(!isValid(userParams)) {
-        res.sendStatus(404);
+        res.status(404).send('Sorry, we cannot search this term for you due to technological limitations.');
         return;
     }
 

@@ -63,16 +63,6 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
         if(splitUserParams.length > 2) {    // third parameter - theme - passed; default value / previous cookie value to be overridden
             railsTheme = splitUserParams[2];
         }
-
-        if(!/^#Cerner$/i.test(searchParams.q)) { // do not persist the search term 'Cerner' in the database, since it's the default value
-            var recordSearchedTerms = `insert into SearchedTerms (Hashtag, ResultType, SearchedAt) values ('${searchParams.q}', '${searchParams.result_type}', CURRENT_TIMESTAMP)`;
-            connection.query(recordSearchedTerms, function (err, result, fields) {
-                if (err) {
-                    return console.log(err);
-                };
-                console.log("Search parameters recorded in the database.");
-            });
-        }
     }
 
     T.get('search/tweets', searchParams, (err, data, response) => {
@@ -116,6 +106,16 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
                         searchParams: searchParams,
                         theme: railsTheme
                     }); // maxAge = 30 days
+
+                    if(!/^#Cerner$/i.test(searchParams.q)) { // do not persist the search term 'Cerner' in the database, since it's the default value
+                        var recordSearchedTerms = `insert into SearchedTerms (Hashtag, ResultType, SearchedAt) values ('${searchParams.q}', '${searchParams.result_type}', CURRENT_TIMESTAMP)`;
+                        connection.query(recordSearchedTerms, function (err, result, fields) {
+                            if (err) {
+                                return console.log(err);
+                            };
+                            console.log("Search parameters recorded in the database.");
+                        });
+                    }
                 }
             });
         }

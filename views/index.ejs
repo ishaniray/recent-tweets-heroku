@@ -36,11 +36,14 @@
 
                 <button class="rails-theme-toggle-<%=theme%>" id="rails-theme-toggle">
                     <span class="rails-tooltip">
-                      <% if(theme == 'light'){ %>
-                        <i class="fa fa-lightbulb-o" style="font-size:36px;color:rgb(12, 0, 0)"></i>
-                      <%}
-                      else{%>
-                          <i class="fa fa-lightbulb-o" style="font-size:36px;color:rgb(255, 254, 254)"></i> <%}%>
+                        <label class="rails-switch">
+                            <input type="checkbox" checked>
+                            <% if(theme == 'light'){ %>
+                                <span class="rails-slider-light round"></span>
+                            <%} else{%>
+                                <span class="rails-slider-dark round"></span>
+                            <%}%>
+                        </label>    
                         <span class="rails-tooltiptext-<%=theme%>" id="theme-status">
                             <% if(theme == 'light') { %>Dark<% } else { %>Light<% } %> Theme
                         </span>

@@ -141,9 +141,11 @@ app.post('/rating', function(req, res) {
     var postRating = `insert into UserRatings (Rating, PostedAt) values (${rating}, CURRENT_TIMESTAMP)`;
     connection.query(postRating, function (err, result, fields) {
         if (err) {
+            res.sendStatus(503);
             return console.log(err);
         };
         console.log("User rating recorded in database.");
+        res.sendStatus(201);
     });
 });
 

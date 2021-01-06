@@ -9,4 +9,4 @@
  * User ratings
  * Storing user ratings and searched terms (not personally-identifiable) in a MySQL database
 
- **This app is hosted on AWS and deployed via CircleCI. See it in action [here](http://thisisnotaname-env.pie2wueprb.us-east-2.elasticbeanstalk.com/).**
+ **This app is hosted on Heroku. See it in action [here](https://recent-tweets-rails.herokuapp.com/).**

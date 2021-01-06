@@ -148,6 +148,6 @@ app.post('/rating', function (req, res) {
     });
 });
 
-const server = http.listen(8080, function () {
+const server = http.listen(process.env.PORT || 8080, function () {
     console.log('listening on *:8080');
 });

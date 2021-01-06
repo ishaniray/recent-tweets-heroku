@@ -1,185 +1,194 @@
 <html>
-    <head>
-        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>RAILS</title>
-        <link href="/css/rails.css" rel="stylesheet" type="text/css">
-        <link rel="icon" href="/images/railsFavicon.png" type="image/png">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
-    </head>
-    <body>
-        <div class="rails-se-pre-con"></div>
 
-        <div class="rating">
-            <span onclick="rate(5)">☆</span><span onclick="rate(4)">☆</span><span onclick="rate(3)">☆</span><span onclick="rate(2)">☆</span><span onclick="rate(1)">☆</span>
-        </div>
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAILS</title>
+    <link href="/css/rails.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="/images/railsFavicon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+</head>
 
-        <div class="rails-form-popup" id="railsForm">
-            <form id="rails-form-id" class="rails-form-container-<%=theme%>" action="\" method="POST">
-                <input type="text" id="rails-hashtag-id" placeholder="hashtag" required/>
-                <select name="result-type" id="result-type" class="select">
-                    <option value="recent" selected>Recent</option>
-                    <option value="popular">Popular</option>
-                </select>
-                <button id="rails-button-id" class="btn">Search</button>
-                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-            </form>
-        </div>
+<body>
+    <div class="rails-se-pre-con"></div>
 
-        <div class="rails-tweet-holder" id="tweet-holder">
-            <div class="rails-tweet rails-bg-<%=theme%>" id="tweet-bg">
-                <h4 class="rails-text-<%=theme%>" align='center'><%= searchParams.result_type.charAt(0).toUpperCase() + searchParams.result_type.slice(1) %> Tweets about <%= searchParams.q %></h4>
+    <div class="rating">
+        <span onclick="rate(5)">☆</span><span onclick="rate(4)">☆</span><span onclick="rate(3)">☆</span><span
+            onclick="rate(2)">☆</span><span onclick="rate(1)">☆</span>
+    </div>
 
-                <button class="rails-open-button-<%=theme%>" id="rails-search-button" onclick="openForm()">Search #</button>
+    <div class="rails-form-popup" id="railsForm">
+        <form id="rails-form-id" class="rails-form-container-<%=theme%>" action="\" method="POST">
+            <input type="text" id="rails-hashtag-id" placeholder="hashtag" required />
+            <select name="result-type" id="result-type" class="select">
+                <option value="recent" selected>Recent</option>
+                <option value="popular">Popular</option>
+            </select>
+            <button id="rails-button-id" class="btn">Search</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+    </div>
 
-                <button class="rails-theme-toggle-<%=theme%>" id="rails-theme-toggle">
-                    <span class="rails-tooltip">
-                        <label class="rails-switch">
-                            <input type="checkbox" checked>                            
-                            <span class="rails-slider-<%=theme%> round"></span>
-                        </label>    
-                        <span class="rails-tooltiptext-<%=theme%>" id="theme-status">
-                            <% if(theme == 'light') { %>Dark<% } else { %>Light<% } %> Theme
-                        </span>
+    <div class="rails-tweet-holder" id="tweet-holder">
+        <div class="rails-tweet rails-bg-<%=theme%>" id="tweet-bg">
+            <h4 class="rails-text-<%=theme%>" align='center'>
+                <%= searchParams.result_type.charAt(0).toUpperCase() + searchParams.result_type.slice(1) %> Tweets about
+                    <%= searchParams.q %>
+            </h4>
+
+            <button class="rails-open-button-<%=theme%>" id="rails-search-button" onclick="openForm()">Search #</button>
+
+            <button class="rails-theme-toggle-<%=theme%>" id="rails-theme-toggle">
+                <span class="rails-tooltip">
+                    <label class="rails-switch">
+                        <input type="checkbox" checked>
+                        <span class="rails-slider-<%=theme%> round"></span>
+                    </label>
+                    <span class="rails-tooltiptext-<%=theme%>" id="theme-status">
+                        <% if(theme=='light' ) { %>Dark<% } else { %>Light<% } %> Theme
                     </span>
-                </button>
+                </span>
+            </button>
 
-                <div align='center'>
-                    <% embeddedTweets.forEach(function(tweet) { %>
-                        <div><%- tweet %></div> <!-- Use "-" instead of "=" for unescaped raw (HTML) output -->
+            <div align='center'>
+                <% embeddedTweets.forEach(function(tweet) { %>
+                    <div>
+                        <%- tweet %>
+                    </div> <!-- Use "-" instead of "=" for unescaped raw (HTML) output -->
                     <% }); %>
-                </div>
-
-                <div class="rails-text-<%=theme%>" id="copyright-footer">&copy; <%- new Date().getFullYear() %> RAILS</div>
             </div>
 
-            <div id="rails-cookieConsent">
-                <div id="rails-closeCookieConsent">x</div>
-                This website is using cookies. By continuing, you show your consent. <button>Privacy Policy</button>
-            </div>
-
+            <div class="rails-text-<%=theme%>" id="copyright-footer">&copy; <%- new Date().getFullYear() %> RAILS</div>
         </div>
 
-        <script>
-            $(document).ready(function(){
-                setTimeout(function () {
-                    if(typeof(Storage) !== "undefined") {
-                        if(localStorage.getItem("acceptCookie") == null) {
-                            $("#rails-cookieConsent").fadeIn(200);
-                        }
-                    } else {
-                        alert('Your browser does not support Web Storage');
+        <div id="rails-cookieConsent">
+            <div id="rails-closeCookieConsent">x</div>
+            This website is using cookies. By continuing, you show your consent. <button>Privacy Policy</button>
+        </div>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                if (typeof (Storage) !== "undefined") {
+                    if (localStorage.getItem("acceptCookie") == null) {
                         $("#rails-cookieConsent").fadeIn(200);
                     }
-                }, 1000);
-                $("#rails-closeCookieConsent").click(function() {
-                    $("#rails-cookieConsent").fadeOut(200);
-                    localStorage.setItem("acceptCookie", "true");
-                });
-
+                } else {
+                    alert('Your browser does not support Web Storage');
+                    $("#rails-cookieConsent").fadeIn(200);
+                }
+            }, 1000);
+            $("#rails-closeCookieConsent").click(function () {
+                $("#rails-cookieConsent").fadeOut(200);
+                localStorage.setItem("acceptCookie", "true");
             });
 
-            $(window).load(function() {
-		        $(".rails-se-pre-con").fadeOut("slow");
-	        });
+        });
 
-            function openForm() {
-                document.getElementById("railsForm").style.display = "block";
-                document.getElementById("rails-search-button").style.display = "none";
+        $(window).load(function () {
+            $(".rails-se-pre-con").fadeOut("slow");
+        });
+
+        function openForm() {
+            document.getElementById("railsForm").style.display = "block";
+            document.getElementById("rails-search-button").style.display = "none";
+        }
+
+        function closeForm() {
+            document.getElementById("railsForm").style.display = "none";
+            document.getElementById("rails-search-button").style.display = "block";
+        }
+
+        function getRedirectUrl(hashtag, resultType, theme = 'none') {
+            var hostname = window.location.hostname;
+            var port = window.location.port;
+            var pathname = `/${hashtag}-${resultType}`;
+            if (theme != 'none') {
+                pathname = `${pathname}-${theme}`;
+            }
+            if (port.length > 0) {
+                return `https://${hostname}:${port}${pathname}`;
+            }
+            return `https://${hostname}${pathname}`;
+        }
+
+        function getEndpointUrl(endpoint) {
+            var hostname = window.location.hostname;
+            var port = window.location.port;
+            var endPoint = `/${endpoint}`;
+
+            if (port.length > 0) {
+                return `https://${hostname}:${port}${endPoint}`;
+            }
+            return `https://${hostname}${endPoint}`;
+        }
+
+        $('#rails-button-id').click(function (e) {
+            var hashtag = $('#rails-hashtag-id').val();
+            if (hashtag.trim().length == 0) {
+                alert('Your search query is empty. We will search #Cerner for you...');
+                hashtag = "Cerner";
+            }
+            var resultType = $('#result-type').val();
+
+            window.location.href = getRedirectUrl(hashtag, resultType);
+
+            return false;
+        });
+
+        $("#rails-theme-toggle").click(function (e) {
+            var hashtag = 'Cerner';
+            var resultType = 'recent';
+            var theme = 'light';
+
+            var pathname = window.location.pathname;
+            var urlParams = pathname.replace('/', '');
+
+            if (urlParams.length > 0) {
+                var splitUrlParams = urlParams.split("-");
+
+                hashtag = splitUrlParams[0];
+
+                if (splitUrlParams.length > 1) {
+                    resultType = splitUrlParams[1];
+                }
             }
 
-            function closeForm() {
-                document.getElementById("railsForm").style.display = "none";
-                document.getElementById("rails-search-button").style.display = "block";
+            if ($("#theme-status").hasClass("rails-tooltiptext-light")) {
+                theme = 'dark';
             }
 
-            function getRedirectUrl(hashtag, resultType, theme = 'none') {
-                var hostname = window.location.hostname;
-                var port = window.location.port;
-                var pathname = `/${hashtag}-${resultType}`;
-                if(theme != 'none') {
-                    pathname = `${pathname}-${theme}`;
+            window.location.href = getRedirectUrl(hashtag, resultType, theme);
+
+            return false;
+        });
+
+        function rate(userRating) {
+            var endPointUrl = getEndpointUrl("rating");
+            var data = {
+                rating: userRating
+            };
+
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                url: endPointUrl,
+                success: function (data) {
+                    console.log('Rating posted.');
+                    alert("Thanks for your feedback!");
+                },
+                error: function (err) {
+                    console.log('Unable to post rating. Try again later.');
+                    alert("Unable to post rating at this time. Please try again in a few minutes.");
                 }
-                if(port.length > 0) {
-                    return `http://${hostname}:${port}${pathname}`;
-                }
-                return `http://${hostname}${pathname}`;
-            }
-
-            function getEndpointUrl(endpoint) {
-                var hostname = window.location.hostname;
-                var port = window.location.port;
-                var endPoint = `/${endpoint}`;
-
-                if(port.length > 0) {
-                    return `http://${hostname}:${port}${endPoint}`;
-                }
-                return `http://${hostname}${endPoint}`;
-            }
-
-            $('#rails-button-id').click(function(e){
-                var hashtag = $('#rails-hashtag-id').val();
-                if(hashtag.trim().length==0) {
-                    alert('Your search query is empty. We will search #Cerner for you...');
-                    hashtag = "Cerner";
-                }
-                var resultType = $('#result-type').val();
-
-                window.location.href = getRedirectUrl(hashtag, resultType);
-
-                return false;
             });
+        }
+    </script>
+</body>
 
-            $("#rails-theme-toggle").click(function(e){
-                var hashtag = 'Cerner';
-                var resultType = 'recent';
-                var theme = 'light';
-
-                var pathname = window.location.pathname;
-                var urlParams = pathname.replace('/', '');
-
-                if(urlParams.length > 0) {
-                    var splitUrlParams = urlParams.split("-");
-
-                    hashtag = splitUrlParams[0];
-
-                    if(splitUrlParams.length > 1) {
-                        resultType = splitUrlParams[1];
-                    }
-                }
-
-                if($("#theme-status").hasClass("rails-tooltiptext-light")) {
-                    theme = 'dark';
-                }
-
-                window.location.href = getRedirectUrl(hashtag, resultType, theme);
-
-                return false;
-            });
-
-            function rate(userRating) {
-                var endPointUrl = getEndpointUrl("rating");
-                var data = {
-                    rating: userRating
-                };
-
-                $.ajax({
-                    type: 'POST',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    url: endPointUrl,
-                    success: function(data) {
-                        console.log('Rating posted.');
-                        alert("Thanks for your feedback!");
-                    },
-                    error: function(err) {
-                        console.log('Unable to post rating. Try again later.');
-                        alert("Unable to post rating at this time. Please try again in a few minutes.");
-                    }
-                });
-            }
-        </script>
-    </body>
 </html>

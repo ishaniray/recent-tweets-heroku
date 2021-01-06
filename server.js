@@ -3,9 +3,16 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
-const cookieParser =  require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
+
+const { Pool } = require('pg');
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.DEPLOYMENT_PLATFORM === 'local' ? false : {
+        rejectUnauthorized: false
+    }
+});
 
 const Twitter = require('twitter');
 const apiKeys = {
@@ -16,25 +23,17 @@ const apiKeys = {
 }
 const T = new Twitter(apiKeys);
 
-var connection = mysql.createConnection({
-    host: process.env.RDS_HOSTNAME,
-    port: process.env.RDS_PORT,
-    database: process.env.RDS_DB_NAME,
-    user: process.env.RDS_USERNAME,
-    password: process.env.RDS_PASSWORD
-});
-
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(__dirname + '/resources'));
 
 app.get('/favicon.ico', (req, res) => res.sendStatus(204)); // No content
 
-app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are optional
+app.get('/:parameters?', function (req, res) {  // '?' indicates parameters are optional
 
     var userParams = req.params.parameters;
 
-    if(!isValid(userParams)) {
+    if (!isValid(userParams)) {
         res.status(404).send('Sorry, we cannot search this term for you due to technological limitations.');
         return;
     }
@@ -47,27 +46,27 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
     };  // defaults
 
     var railsTheme = req.cookies['rails-theme'];
-    if(railsTheme == undefined) {   // no cookie
+    if (railsTheme == undefined) {   // no cookie
         railsTheme = 'light';    // default theme
     }
 
-    if(userParams != undefined) {
+    if (userParams != undefined) {
         var splitUserParams = userParams.split("-");
 
         searchParams.q = `#${splitUserParams[0]}`;  // first parameter - hashtag - passed; default value to be overridden
 
-        if(splitUserParams.length > 1) {   // second parameter - result type - passed; default value to be overridden
+        if (splitUserParams.length > 1) {   // second parameter - result type - passed; default value to be overridden
             searchParams.result_type = splitUserParams[1];
         }
 
-        if(splitUserParams.length > 2) {    // third parameter - theme - passed; default value / previous cookie value to be overridden
+        if (splitUserParams.length > 2) {    // third parameter - theme - passed; default value / previous cookie value to be overridden
             railsTheme = splitUserParams[2];
         }
     }
 
     T.get('search/tweets', searchParams, (err, data, response) => {
         // In case of an error, return
-        if(err) {
+        if (err) {
             return console.log(err);
         }
 
@@ -83,22 +82,22 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
         var embeddedTweets = [];
         var count = 0;
 
-        for(var i = 0; i < tweets.length; ++i) {
+        for (var i = 0; i < tweets.length; ++i) {
             var id = tweets[i].id;
             var username = tweets[i].username;
 
             oembedParams.url = `https://twitter.com/${username}/status/${id}`;
 
-            T.get('statuses/oembed', oembedParams , (err, oembedData, response) => {
+            T.get('statuses/oembed', oembedParams, (err, oembedData, response) => {
                 count = count + 1;
 
-                if(err) {
+                if (err) {
                     return console.log(err);
                 }
 
                 embeddedTweets.push(oembedData.html);
 
-                if(count == tweets.length) {  // render index.ejs only when all callbacks but the current one have finished executing
+                if (count == tweets.length) {  // render index.ejs only when all callbacks but the current one have finished executing
                     const uniqueEmbeddedTweets = new Set(embeddedTweets);
 
                     res.cookie('rails-theme', railsTheme, { maxAge: 2592000000 }).render('index.ejs', {
@@ -107,9 +106,9 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
                         theme: railsTheme
                     }); // maxAge = 30 days
 
-                    if(!/^#Cerner$/i.test(searchParams.q)) { // do not persist the search term 'Cerner' in the database, since it's the default value
+                    if (!/^#Cerner$/i.test(searchParams.q)) { // do not persist the search term 'Cerner' in the database, since it's the default value
                         var recordSearchedTerms = `insert into SearchedTerms (Hashtag, ResultType, SearchedAt) values ('${searchParams.q}', '${searchParams.result_type}', CURRENT_TIMESTAMP)`;
-                        connection.query(recordSearchedTerms, function (err, result, fields) {
+                        pool.query(recordSearchedTerms, function (err) {
                             if (err) {
                                 return console.log(err);
                             };
@@ -123,23 +122,23 @@ app.get('/:parameters?', function(req, res) {  // '?' indicates parameters are o
 });
 
 function isValid(userParams) {
-    if(userParams != undefined) {
-        if(userParams.includes('.')) {
+    if (userParams != undefined) {
+        if (userParams.includes('.')) {
             return false;
         }
         let regex = /^(ReportServer|HNAP1|nmap|hudson|Dst2|muieblackcat|english|sachinsong|shell|server|wp|solr|phpmyadmin)/i;	// requests generated by web scanners
-        if(regex.test(userParams)) {
+        if (regex.test(userParams)) {
             return false;
         }
     }
     return true;
 }
 
-app.post('/rating', function(req, res) {
+app.post('/rating', function (req, res) {
     var rating = JSON.parse(JSON.stringify(req.body)).rating;
 
     var postRating = `insert into UserRatings (Rating, PostedAt) values (${rating}, CURRENT_TIMESTAMP)`;
-    connection.query(postRating, function (err, result, fields) {
+    pool.query(postRating, function (err) {
         if (err) {
             res.sendStatus(503);
             return console.log(err);
@@ -149,6 +148,6 @@ app.post('/rating', function(req, res) {
     });
 });
 
-const server = http.listen(8080, function() {
+const server = http.listen(8080, function () {
     console.log('listening on *:8080');
 });

@@ -9,4 +9,4 @@
  * User ratings
  * Storing user ratings and searched terms (not personally-identifiable) in a MySQL database
 
- **This app is hosted on Heroku. See it in action [here](https://recent-tweets-rails.herokuapp.com/).**
+ **This app is hosted on Heroku. See it in action [here](https://recent-tweets-rails.herokuapp.com/). [UPDATE: As of 2022-11-30, RecentTweets is no longer hosted on Heroku.]**
